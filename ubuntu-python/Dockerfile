@@ -1,4 +1,4 @@
-FROM hklement/ubuntu-base
+FROM hklement/ubuntu-exec
 MAINTAINER Hauke Klement <dev@hklement.de>
 RUN apt-get install -y g++ make wget
 RUN wget -O /tmp/python.tgz https://www.python.org/ftp/python/3.4.2/Python-3.4.2.tgz
