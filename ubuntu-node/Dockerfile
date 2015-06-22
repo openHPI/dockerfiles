@@ -7,5 +7,5 @@ RUN npm install npm -g
 RUN npm install -g mocha
 RUN npm install q -g
 RUN export NODE_PATH=/usr/local/lib/node_modules
-RUN apt-get install recode
+RUN apt-get -y install recode
 ENV LANG=en_US.UTF-8
