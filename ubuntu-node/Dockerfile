@@ -6,5 +6,5 @@ RUN wget -O node.tar.gz http://nodejs.org/dist/v0.12.4/node-v0.12.4.tar.gz && mk
 RUN npm install npm -g
 RUN npm install -g mocha
 RUN npm install q -g
-RUN export NODE_PATH=/usr/local/lib/node_modules
+ENV NODE_PATH=/usr/local/lib/node_modules
 ENV LANG=en_US.UTF-8
