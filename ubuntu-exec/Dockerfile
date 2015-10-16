@@ -1,3 +1,3 @@
-FROM hklement/ubuntu-base
-MAINTAINER Hauke Klement <dev@hklement.de>
+FROM openhpi/docker-base
+MAINTAINER openHPI team <openhpi-info@hpi.de>
 RUN read command; exec $command
