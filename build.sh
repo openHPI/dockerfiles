@@ -1,2 +1,2 @@
 #!/usr/bin/env ruby
-exec "docker build -t hklement/#{ARGV[0].gsub('/', '')} #{ARGV[0]}"
+exec "docker build -t openhpi/#{ARGV[0].gsub('/', '')} #{ARGV[0]}"
