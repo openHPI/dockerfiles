@@ -1,5 +1,5 @@
-FROM hklement/ubuntu-java
-MAINTAINER Hauke Klement <dev@hklement.de>
+FROM openhpi/docker_java
+MAINTAINER openHPI team <openhpi-info@hpi.de>
 RUN wget -O /tmp/jruby.tar.gz https://s3.amazonaws.com/jruby.org/downloads/1.7.19/jruby-bin-1.7.19.tar.gz
 RUN mkdir /usr/jruby
 RUN tar xfz /tmp/jruby.tar.gz -C /usr/jruby
