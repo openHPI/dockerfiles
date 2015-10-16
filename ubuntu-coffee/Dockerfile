@@ -1,3 +1,3 @@
 FROM hklement/ubuntu-node
-MAINTAINER Hauke Klement <dev@hklement.de>
+MAINTAINER openHPI team <openhpi-info@hpi.de>
 RUN npm install -g coffee-script
