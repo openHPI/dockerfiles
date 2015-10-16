@@ -1,4 +1,4 @@
-FROM jprberlin/ubuntu-base
+FROM openhpi/docker_base
 MAINTAINER Hauke Klement <dev@hklement.de>
 RUN apt-get install -y make wget
 RUN mkdir /usr/java && wget -O java.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u40-b25/jdk-8u40-linux-x64.tar.gz --header "Cookie: oraclelicense=accept-securebackup-cookie" && tar xfz java.tar.gz -C /usr/java
