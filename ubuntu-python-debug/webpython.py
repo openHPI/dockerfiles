@@ -137,7 +137,7 @@ class Shell:
             'char': chr(message)
         })
 
-    def _readline():
+    def _readline(self): 
         buffer = []
 
         while True:
@@ -180,8 +180,7 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--filename', type=str, required=True, default='exercise.py', help='Python file to be interpreted.')
     args = parser.parse_args()
 
-    # filepath = os.path.join("/", "workspace", args.filename)
-    filepath = args.filename
+    filepath = os.path.join("/", "workspace", args.filename)
     with open(filepath, "r", encoding='utf-8') as f:
         script = f.read()
     c = compile(script, args.filename, 'exec')
