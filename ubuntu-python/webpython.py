@@ -1,17 +1,12 @@
 #!/usr/bin/python3
-# Main interpreter entry for webpython
-import io, select, sys, os, threading, code
-import pickle, struct, builtins, json
-#, ressource
-from queue import Queue
-from argparse import ArgumentParser
 
-# hard limit to 64M
-#try:
-#    resource.setrlimit(resource.RLIMIT_AS, (1<<26, 1<<26))
-#except ValueError:
-    # tried to raise it
-#    pass
+import io
+import os
+import sys
+import builtins
+import json
+
+from argparse import ArgumentParser
 
 # output limit 16MiB
 output_capacity = 16*1024*1024
@@ -137,7 +132,7 @@ class Shell:
         orig_stdout.write(data)
 
     def receivepickle(self):
-        msg = json.loads(orig_stdin.readline())
+        msg = json.loads(self._readline())
         if msg['cmd'] == 'canvasevent':
             self.canvas.append(msg)
         else:
@@ -157,11 +152,9 @@ class Shell:
 shell = Shell()
 sys.__stdin__ = sys.stdin = PseudoInputFile(shell, 'stdin')
 sys.__stdout__ = sys.stdout = PseudoOutputFile(shell, 'stdout')
-#sys.__stderr__ = sys.stderr = PseudoOutputFile(shell, 'stderr')
+sys.__stderr__ = sys.stderr = PseudoOutputFile(shell, 'stderr')
 builtins.input = shell.input
 
-#iothread = threading.Thread(target=shell.run)
-#iothread.start()
 
 if __name__ == '__main__':
     parser = ArgumentParser(description='A python interpreter that generates json commands based on the standard I/O streams.')
