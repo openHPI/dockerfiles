@@ -132,7 +132,7 @@ class Shell:
         orig_stdout.write(data)
 
     def receivepickle(self):
-        msg = json.loads(self._readline())
+        msg = json.loads(orig_stdin.readline())
         if msg['cmd'] == 'canvasevent':
             self.canvas.append(msg)
         else:
