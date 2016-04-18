@@ -7,17 +7,7 @@ ENV PATH $PATH:$JAVA_HOME/bin
 RUN mkdir -p /usr/java/lib
 ADD hamcrest-core-1.3.jar /usr/java/lib/
 ADD junit-4.11.jar /usr/java/lib/
-RUN mkdir -p /usr/local/lib && cd /usr/local/lib && wget http://www.antlr.org/download/antlr-4.5-complete.jar
+ADD antlr-4.5-complete.jar /usr/local/lib/
+ADD antlr-java8.jar /usr/java/lib/
 ENV CLASSPATH=".:/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH"
-RUN mkdir -p /AntlrUse
-ADD AntlrUse /AntlrUse
-
-# "work" here denotes the docker <workspace> and assuming these files are given with the exercise
-RUN mkdir -p /work && ln -s /work /AntlrUse/
-ADD OurClassUnderTest.java /work/
-ADD MyClassUnderTest.java /work/
-ADD OurInterface.java /work/
-ADD MyTestClass.java /work/
-ADD MyJava8Listener.java /work/
-WORKDIR /AntlrUse/
-RUN javac -cp ".:/usr/java/lib/hamcrest-core-1.3.jar:/usr/java/lib/junit-4.11.jar:/usr/local/lib/antlr-4.5-complete.jar:/AntlrUse/work/:$CLASSPATH" *.java ./antlrstuff/*.java ./work/*.java
+RUN javac -cp ".:/usr/java/lib/hamcrest-core-1.3.jar:/usr/java/lib/junit-4.11.jar:/usr/local/lib/antlr-4.5-complete.jar:/usr/java/lib/antlr-java8.jar:$CLASSPATH" *.java
