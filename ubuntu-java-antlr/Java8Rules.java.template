@@ -1,0 +1,8 @@
+import antlrstuff.Java8BaseListener;
+import antlrstuff.Java8Parser;
+
+public class Java8Rules extends Java8BaseListener {
+
+ // Override the listener methods found in  Java8BaseListener you would like to use for static analysis
+
+ }
