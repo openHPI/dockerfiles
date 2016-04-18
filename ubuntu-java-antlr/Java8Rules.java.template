@@ -1,68 +1,8 @@
+import antlrstuff.Java8BaseListener;
+import antlrstuff.Java8Parser;
 
-import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.tree.ParseTree;
+public class Java8Rules extends Java8BaseListener {
 
-public class Java8Rules extends Java8BaseListener{
+ // Override the listener methods found in  Java8BaseListener you would like to use for static analysis
 
-//	private static String inMethodNameScope = "";
-	private static boolean isInMethodNameScope = false;
-	private static boolean isTest = false;
-	private static boolean hasAssertion = false;
-	
-	private static boolean rulePassed = true;
-
-	@Override 
-	public void enterMethodDeclaration(Java8Parser.MethodDeclarationContext ctx) { 
-//		for (int i = 0; i < ctx.getChildCount(); i++) {
-//			System.out.println("level 1: " + ctx.getChild(i).getText());
-//			if ("methodHeader".equals(ctx.getChild(i).getText())) {
-//				ParseTree child = ctx.getChild(i);
-//				for (int j = 0; j < child.getChildCount(); j++) {
-//					System.out.println("level 2: " + child.getChild(j).getText());
-//					if ("methodDeclarator".equals(child.getChild(j).getText())) {
-//						MethodDeclaratorContext declarator = (MethodDeclaratorContext) child.getChild(j);
-//						inMethodNameScope = declarator.getChild(1).getText();
-//						System.out.println(inMethodNameScope);
-//					}
-//				}
-//			}
-//		}
-		System.out.println("---");
-		System.out.println("method in");
-		isInMethodNameScope = true;
-	}
-	
-	@Override 
-	public void enterMarkerAnnotation(Java8Parser.MarkerAnnotationContext ctx) { 
-		System.out.println("annotation in");
-		isTest = "Test".equals(ctx.typeName().getText());
-		System.out.println(ctx.typeName().getText());
-	}
-	
-	@Override 
-	public void enterMethodInvocation(Java8Parser.MethodInvocationContext ctx) {
-		if(!hasAssertion) {
-			if (ctx.methodName() != null) {
-				hasAssertion = ctx.methodName().getText().contains("assert");
-			}
-		}
-	}
-	
-	@Override 
-	public void exitMethodBody(Java8Parser.MethodBodyContext ctx) { 
-		
-		if(isInMethodNameScope && isTest){
-			rulePassed = hasAssertion;
-		}
-		else {
-			rulePassed = true;
-		}
-		System.out.println("rulePassed: " + rulePassed);
-		isInMethodNameScope = false;
-		System.out.println("method out");
-		hasAssertion=false;
-		isTest = false;
-	}
-	
-}
-
+ }
