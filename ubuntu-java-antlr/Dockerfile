@@ -9,5 +9,3 @@ ADD hamcrest-core-1.3.jar /usr/java/lib/
 ADD junit-4.11.jar /usr/java/lib/
 ADD antlr-4.5-complete.jar /usr/local/lib/
 ADD antlr-java8.jar /usr/java/lib/
-ENV CLASSPATH=".:/usr/local/lib/antlr-4.5-complete.jar:$CLASSPATH"
-RUN javac -cp ".:/usr/java/lib/hamcrest-core-1.3.jar:/usr/java/lib/junit-4.11.jar:/usr/local/lib/antlr-4.5-complete.jar:/usr/java/lib/antlr-java8.jar:$CLASSPATH" *.java
