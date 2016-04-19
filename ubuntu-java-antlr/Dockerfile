@@ -1,4 +1,5 @@
-FROM openhpi/docker_exec
+#FROM openhpi/docker_exec
+FROM ubuntu:14.04
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 RUN apt-get install -y make wget
 RUN mkdir -p /usr/java && wget -O java.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u40-b25/jdk-8u40-linux-x64.tar.gz --header "Cookie: oraclelicense=accept-securebackup-cookie" && tar xfz java.tar.gz -C /usr/java
