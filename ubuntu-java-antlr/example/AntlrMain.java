@@ -21,26 +21,26 @@ import antlrstuff.Java8Parser;
 
 //Teaching Team tests the participants' implementation and the participants' tests
 public class AntlrMain {
-	
+
 	Java8Listener jbl = new Java8Rules();
 	private static ArrayList<String> failedTests;
-	
+
 	//the participants' implementation can be accessed in a regular way as it has to implement our interface
 	MyClassUnderTest mcut;
 	//the participants' Tests are accessed via Reflection to allow more freedom
 	Class<?> c;
 	Object t;
-	
+
 	private static ANTLRInputStream input;
 	private static Java8Lexer lexer;
 	private static CommonTokenStream tokens;
 	private static Java8Parser parser;
 	private static ParseTree tree;
 	private static ParseTreeWalker walker;
-	
+
 	@BeforeClass
 	public static void setupClass() {
-		
+
 		try {
 			input = new ANTLRInputStream(new FileInputStream("/workspace/MyTestClass.java"));
 			lexer = new Java8Lexer(input);
@@ -54,8 +54,8 @@ public class AntlrMain {
 			e.printStackTrace();
 		} 
 	}
-	
-	
+
+
 	@Before
 	public void setup() {
 		mcut = new MyClassUnderTest();
@@ -83,7 +83,7 @@ public class AntlrMain {
 		assertEquals(-1, mcut.add(1, -2));
 		assertEquals(-4, mcut.add(-2, -2));
 	}
-	
+
 	@Test
 	public void testMultiply() {
 		assertEquals(2, mcut.multiply(1, 2));
@@ -93,30 +93,30 @@ public class AntlrMain {
 		assertEquals(-2, mcut.multiply(1, -2));
 		assertEquals(4, mcut.multiply(-2, -2));
 	}
-	
+
 	//running the participants' tests
 	@Test
 	public void runTheirTests() {
-		
+
 		Method[] allMethods = c.getDeclaredMethods();
 		ArrayList<Method> beforeClassMethods = new ArrayList<>();
 		ArrayList<Method> beforeMethods = new ArrayList<>();
 		ArrayList<Method> testMethods = new ArrayList<>();
 		ArrayList<Method> afterMethods = new ArrayList<>();
-		
+
 		for (Method m : allMethods) {
-				if (m.isAnnotationPresent(BeforeClass.class)){
-					beforeClassMethods.add(m);
-				} else if (m.isAnnotationPresent(Before.class)){
-					beforeMethods.add(m);
-				} else if (m.isAnnotationPresent(Test.class)){
-					testMethods.add(m);
-				} else if (m.isAnnotationPresent(After.class)){
-					afterMethods.add(m);
-				} 
-				
+			if (m.isAnnotationPresent(BeforeClass.class)){
+				beforeClassMethods.add(m);
+			} else if (m.isAnnotationPresent(Before.class)){
+				beforeMethods.add(m);
+			} else if (m.isAnnotationPresent(Test.class)){
+				testMethods.add(m);
+			} else if (m.isAnnotationPresent(After.class)){
+				afterMethods.add(m);
+			} 
+
 		}
-		
+
 		// call before class methods once
 		for(Method bcm : beforeClassMethods){
 			try {
@@ -129,20 +129,20 @@ public class AntlrMain {
 				e.printStackTrace();
 			}
 		}
-		
+
 		// run all tests
 		for(Method tm : testMethods){
 			try {				
 				for(Method bm : beforeMethods){
 					bm.invoke(t);
 				}
-				
+
 				tm.invoke(t);
-				
+
 				for(Method am : afterMethods){
 					am.invoke(t);
 				}
-				
+
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
@@ -152,21 +152,21 @@ public class AntlrMain {
 			}
 		}
 	}
-	
+
 	//check if they at least have called our implementation's methods
 	@Test
 	public void testMethodsCalled() {
-    Method[] methodsToBeCalled = OurInterface.class.getDeclaredMethods();
-		
-    for (Method im : methodsToBeCalled) {
-      assertTrue("Method: " + im + " was not tested", OurClassUnderTest.getCalled().contains(im.getName()));
-    }
+		Method[] methodsToBeCalled = OurInterface.class.getDeclaredMethods();
+
+		for (Method im : methodsToBeCalled) {
+			assertTrue("Method: " + im + " was not tested", OurClassUnderTest.getCalled().contains(im.getName()));
+		}
 	}
-	
+
 	@Test
 	public void testTheirMethodsContainAssertions() throws TestFailedException {
 		walker.walk(jbl, tree);
-		
+
 		for (String key : Java8Rules.getRules().keySet()) {
 			try {
 				assertTrue("Method: " + key + " contains no assertions", Java8Rules.getRules().get(key) > 0);
@@ -174,7 +174,7 @@ public class AntlrMain {
 				failedTests.add(e.getMessage());
 			}
 		}
-		
+
 		if (! failedTests.isEmpty()) {
 			throw new TestFailedException(failedTests);
 		}
