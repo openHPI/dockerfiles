@@ -156,11 +156,11 @@ public class AntlrMain {
 	//check if they at least have called our implementation's methods
 	@Test
 	public void testMethodsCalled() {
-		String[] methodsToBeCalled = {"add", "multiply"};
+    Method[] methodsToBeCalled = OurInterface.class.getDeclaredMethods();
 		
-		for (String key : methodsToBeCalled) {
-			assertTrue("Method: " + key + " was not tested", OurClassUnderTest.getCalled().contains(key));
-		}
+    for (Method im : methodsToBeCalled) {
+      assertTrue("Method: " + im + " was not tested", OurClassUnderTest.getCalled().contains(im.getName()));
+    }
 	}
 	
 	@Test
