@@ -1,30 +1,23 @@
-import java.util.HashMap;
+import java.util.HashSet;
 
 //Our reference implementation
 //the participants' tests have to be run against our implementation not theirs 
 public class OurClassUnderTest implements OurInterface {
 
-	private static HashMap<String, Boolean> called;
+	private static HashSet<String> called = new HashSet<String>();
 	
-	public static HashMap<String, Boolean> getCalled() {
+	public static HashSet<String> getCalled() {
 		return called;
 	}
 	
-	public OurClassUnderTest() {
-		called = new HashMap<String, Boolean>();
-		called.put("add", false);
-		called.put("multiply", false);
-	}
-	
 	public int add(int a, int b) {
-		called.put("add", true);
+		called.add("add");
 		return a + b;
 	}
 	
 	public int multiply(int a, int b) {
-		called.put("multiply", true);
+		called.add("multiply");
 		return a * b;
 	}
-	
-	
 }
+

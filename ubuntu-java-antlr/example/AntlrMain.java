@@ -13,6 +13,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.After;
 
 import antlrstuff.Java8Lexer;
 import antlrstuff.Java8Listener;
@@ -98,18 +99,53 @@ public class AntlrMain {
 	public void runTheirTests() {
 		
 		Method[] allMethods = c.getDeclaredMethods();
+		ArrayList<Method> beforeClassMethods = new ArrayList<>();
+		ArrayList<Method> beforeMethods = new ArrayList<>();
+		ArrayList<Method> testMethods = new ArrayList<>();
+		ArrayList<Method> afterMethods = new ArrayList<>();
 		
 		for (Method m : allMethods) {
+				if (m.isAnnotationPresent(BeforeClass.class)){
+					beforeClassMethods.add(m);
+				} else if (m.isAnnotationPresent(Before.class)){
+					beforeMethods.add(m);
+				} else if (m.isAnnotationPresent(Test.class)){
+					testMethods.add(m);
+				} else if (m.isAnnotationPresent(After.class)){
+					afterMethods.add(m);
+				} 
+				
+		}
+		
+		// call before class methods once
+		for(Method bcm : beforeClassMethods){
 			try {
-				//check if we need to call After, BeforeClass, AfterClass, etc. as well
-				if (m.isAnnotationPresent(Before.class) || m.isAnnotationPresent(Test.class)){
-					m.invoke(t);
-				}
+				bcm.invoke(t);
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// run all tests
+		for(Method tm : testMethods){
+			try {				
+				for(Method bm : beforeMethods){
+					bm.invoke(t);
+				}
+				
+				tm.invoke(t);
+				
+				for(Method am : afterMethods){
+					am.invoke(t);
+				}
+				
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
 				fail("Assertion failed: " + e.getCause().getMessage());
@@ -120,8 +156,10 @@ public class AntlrMain {
 	//check if they at least have called our implementation's methods
 	@Test
 	public void testMethodsCalled() {
-		for (String key : OurClassUnderTest.getCalled().keySet()) {
-			assertTrue("Method: " + key + " was not tested", OurClassUnderTest.getCalled().get(key));
+		String[] methodsToBeCalled = {"add", "multiply"};
+		
+		for (String key : methodsToBeCalled) {
+			assertTrue("Method: " + key + " was not tested", OurClassUnderTest.getCalled().contains(key));
 		}
 	}
 	
