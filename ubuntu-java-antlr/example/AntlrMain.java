@@ -1,4 +1,5 @@
 import static org.junit.Assert.*;
+import java.util.ArrayList;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,6 +22,7 @@ import antlrstuff.Java8Parser;
 public class AntlrMain {
 	
 	Java8Listener jbl = new Java8Rules();
+	private static ArrayList<String> failedTests;
 	
 	//the participants' implementation can be accessed in a regular way as it has to implement our interface
 	MyClassUnderTest mcut;
@@ -45,6 +47,7 @@ public class AntlrMain {
 			parser = new Java8Parser(tokens);
 			tree = parser.compilationUnit();
 			walker = new ParseTreeWalker();
+			failedTests = new ArrayList<>();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,7 +59,7 @@ public class AntlrMain {
 	public void setup() {
 		mcut = new MyClassUnderTest();
 		try {
-			c = Class.forName("mypackage.MyTestClass");
+			c = Class.forName("MyTestClass");
 			t = c.newInstance();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -123,11 +126,19 @@ public class AntlrMain {
 	}
 	
 	@Test
-	public void testTheirMethodsContainAssertions() {
+	public void testTheirMethodsContainAssertions() throws TestFailedException {
 		walker.walk(jbl, tree);
 		
-		for (String key : MyJava8Listener.getRules().keySet()) {
-			assertTrue("Method: " + key + " contains no assertions", MyJava8Listener.getRules().get(key) > 0);
+		for (String key : Java8Rules.getRules().keySet()) {
+			try {
+				assertTrue("Method: " + key + " contains no assertions", Java8Rules.getRules().get(key) > 0);
+			} catch (AssertionError e) {
+				failedTests.add(e.getMessage());
+			}
+		}
+		
+		if (! failedTests.isEmpty()) {
+			throw new TestFailedException(failedTests);
 		}
 	}
 }
