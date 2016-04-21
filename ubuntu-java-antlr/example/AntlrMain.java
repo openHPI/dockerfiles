@@ -50,7 +50,6 @@ public class AntlrMain {
 			tree = parser.compilationUnit();
 			walker = new ParseTreeWalker();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
@@ -64,13 +63,10 @@ public class AntlrMain {
 			c = Class.forName("MyTestClass");
 			t = c.newInstance();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -100,6 +96,8 @@ public class AntlrMain {
 	public void runTheirTests() throws TestFailedException {	
 		runTheirTestsHelper(false);
 		runTheirTestsHelper(true);
+		
+		testMethodsCalledHelper();
 		
 		if (! failedTests.isEmpty()) {
 			throw new TestFailedException(failedTests);
@@ -139,50 +137,58 @@ public class AntlrMain {
 				e.printStackTrace();
 			}
 		}
-		OurClassUnderTest.TESTCRUSHER = crush;
+		
+		OurClassUnderTest.CRUSHTESTS = crush;
 		
 		// run all tests
-		for(Method tm : testMethods.keySet()) {
-			try {				
+		for(Method tm : testMethods.keySet()) {			
 				for(Method bm : beforeMethods) {
-					bm.invoke(t);
+					try {
+						bm.invoke(t);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
 				}
-				
-				tm.invoke(t);
-				
+
+				try{
+					tm.invoke(t);
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					testMethods.put(tm, true);
+				}			
+					
 				for(Method am : afterMethods) {
-					am.invoke(t);
+					try {
+						am.invoke(t);
+					} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+						e.printStackTrace();
+					}
 				}
 				
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				testMethods.put(tm, true);
-			}
-		}
-		
-		for(Method tm : testMethods.keySet()){
-			if (crush) {
-				if (! testMethods.get(tm)) {
-					failedTests.add("Method: " + tm.getName() + " succeeded when it should fail.");
+				if (crush) {
+					if (! testMethods.get(tm)) {
+						failedTests.add("Method: " + tm.getName() + " succeeded when it should fail.");
+					}
+				} else {
+					if (testMethods.get(tm)) {
+						failedTests.add("Method: " + tm.getName() + " failed when it should succeed.");
+					}
 				}
-			} else {
-				if (testMethods.get(tm)) {
-					failedTests.add("Method: " + tm.getName() + " failed when it should succeed.");
-				}
-			}
 		}
 	}
 
 	//check if they at least have called our implementation's methods
-	@Test
-	public void testMethodsCalled() {
+	public void testMethodsCalledHelper() {
 		Method[] methodsToBeCalled = OurInterface.class.getDeclaredMethods();
 
 		for (Method im : methodsToBeCalled) {
-			assertTrue("Method: " + im + " was not tested", OurClassUnderTest.getCalled().contains(im.getName()));
+			if(!OurClassUnderTest.getCalled().contains(im.getName())){
+				failedTests.add("Method: " + im.getName() + " was not called.");	
+			}
+			
 		}
 	}
 

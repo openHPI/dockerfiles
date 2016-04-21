@@ -28,10 +28,10 @@ public class MyTestClass {
 		helper();
 	}
 	
-	@Test
-	public void testShouldFail() {
-		
-	}
+//	@Test
+//	public void testShouldFail() {
+//		
+//	}
 	
 	@Test
 	public void testMultiply() {
@@ -39,10 +39,10 @@ public class MyTestClass {
 		assertEquals(2, ocut.multiply(1, 2));
 	}
 	
-	@Test
-	public void testShouldFailAsWell() {
-		
-	}
+//	@Test
+//	public void testShouldFailAsWell() {
+//		
+//	}
 	
 	@Test
 	public void testShouldPass() {
