@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -48,7 +49,6 @@ public class AntlrMain {
 			parser = new Java8Parser(tokens);
 			tree = parser.compilationUnit();
 			walker = new ParseTreeWalker();
-			failedTests = new ArrayList<>();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -59,6 +59,7 @@ public class AntlrMain {
 	@Before
 	public void setup() {
 		mcut = new MyClassUnderTest();
+		failedTests = new ArrayList<>();
 		try {
 			c = Class.forName("MyTestClass");
 			t = c.newInstance();
@@ -96,27 +97,36 @@ public class AntlrMain {
 
 	//running the participants' tests
 	@Test
-	public void runTheirTests() {
-
+	public void runTheirTests() throws TestFailedException {	
+		runTheirTestsHelper(false);
+		runTheirTestsHelper(true);
+		
+		if (! failedTests.isEmpty()) {
+			throw new TestFailedException(failedTests);
+		}
+	}
+	
+	public void runTheirTestsHelper(boolean crush) {
+		
 		Method[] allMethods = c.getDeclaredMethods();
 		ArrayList<Method> beforeClassMethods = new ArrayList<>();
 		ArrayList<Method> beforeMethods = new ArrayList<>();
-		ArrayList<Method> testMethods = new ArrayList<>();
+		HashMap<Method, Boolean> testMethods = new HashMap<>();
 		ArrayList<Method> afterMethods = new ArrayList<>();
-
+		
 		for (Method m : allMethods) {
-			if (m.isAnnotationPresent(BeforeClass.class)){
-				beforeClassMethods.add(m);
-			} else if (m.isAnnotationPresent(Before.class)){
-				beforeMethods.add(m);
-			} else if (m.isAnnotationPresent(Test.class)){
-				testMethods.add(m);
-			} else if (m.isAnnotationPresent(After.class)){
-				afterMethods.add(m);
-			} 
-
+				if (m.isAnnotationPresent(BeforeClass.class)){
+					beforeClassMethods.add(m);
+				} else if (m.isAnnotationPresent(Before.class)){
+					beforeMethods.add(m);
+				} else if (m.isAnnotationPresent(Test.class)){
+					testMethods.put(m, false);
+				} else if (m.isAnnotationPresent(After.class)){
+					afterMethods.add(m);
+				} 
+				
 		}
-
+		
 		// call before class methods once
 		for(Method bcm : beforeClassMethods){
 			try {
@@ -129,26 +139,39 @@ public class AntlrMain {
 				e.printStackTrace();
 			}
 		}
-
+		OurClassUnderTest.TESTCRUSHER = crush;
+		
 		// run all tests
-		for(Method tm : testMethods){
+		for(Method tm : testMethods.keySet()) {
 			try {				
-				for(Method bm : beforeMethods){
+				for(Method bm : beforeMethods) {
 					bm.invoke(t);
 				}
-
+				
 				tm.invoke(t);
-
-				for(Method am : afterMethods){
+				
+				for(Method am : afterMethods) {
 					am.invoke(t);
 				}
-
+				
 			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				fail("Assertion failed: " + e.getCause().getMessage());
+				testMethods.put(tm, true);
+			}
+		}
+		
+		for(Method tm : testMethods.keySet()){
+			if (crush) {
+				if (! testMethods.get(tm)) {
+					failedTests.add("Method: " + tm.getName() + " succeeded when it should fail.");
+				}
+			} else {
+				if (testMethods.get(tm)) {
+					failedTests.add("Method: " + tm.getName() + " failed when it should succeed.");
+				}
 			}
 		}
 	}
