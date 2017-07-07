@@ -16,3 +16,6 @@ RUN pip3 install selenium
 
 # Set up flask
 RUN pip3 install flask
+
+# Start xserver
+CMD Xvfb :99 &
