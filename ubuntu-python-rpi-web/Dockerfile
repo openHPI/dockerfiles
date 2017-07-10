@@ -15,7 +15,4 @@ RUN wget https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckod
 RUN pip3 install selenium
 
 # Set up flask
-RUN pip3 install flask
-
-# Start xserver
-CMD Xvfb :99 &
+RUN pip3 install flask flask-bootstrap
