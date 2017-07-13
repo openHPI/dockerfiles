@@ -13,3 +13,6 @@ RUN pip3 install beautifulsoup4
 
 # Set up flask
 RUN pip3 install flask flask-bootstrap
+
+RUN adduser --disabled-password --gecos Python python
+USER python
