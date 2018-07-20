@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 
 RUN echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" > pgdg.list 
-ADD wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 RUN apt-get update || apt-get update
 VOLUME /workspace
