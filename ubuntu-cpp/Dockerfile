@@ -1,11 +1,14 @@
-FROM openhpi/docker_exec
+FROM ubuntu:18.04
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 
-RUN  apt-add-repository "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main"
-RUN  apt-get install -y clang-6.0
+RUN echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" > pgdg.list 
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sodo apt-key add -
 
-RUN  update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-3.8 100
-RUN  update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-6.0 1000
-RUN  update-alternatives --install /usr/bin/clang++ clang /usr/bin/clang-3.8 100
-RUN  update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.8 100
-RUN  update-alternatives --install /usr/bin/clang clang /usr/bin/clang-6.0 1000
+RUN apt-get update || apt-get update
+VOLUME /workspace
+WORKDIR /workspace
+RUN read command; exec $command
+
+RUN  apt-get install -y clang-6.0
+RUN  apt-get install libc6-dev
+RUN  apt autoremove -y
