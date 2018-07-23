@@ -1,10 +1,10 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.04                                   # based on ubuntu directly, not on the "ubuntu-exec/base"-dockerfile, therefore more independent
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 
-RUN apt-get update || apt-get update
+RUN read command; exec $command                     
 VOLUME /workspace
 WORKDIR /workspace
-RUN read command; exec $command
+RUN apt-get update || apt-get update
 
 RUN apt-get install -y wget
 RUN apt-get install -y gnupg2
