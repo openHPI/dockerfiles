@@ -1,5 +1,5 @@
-FROM ubuntu:18.04                                   # based on ubuntu directly, not on the "ubuntu-exec/base"-dockerfile, therefore more independent
-MAINTAINER openHPI team <openhpi-info@hpi.de>
+FROM ubuntu:18.04                            
+MAINTAINER openHPI team <openhpi-info@hpi.de>    # based on ubuntu directly, not on the "ubuntu-exec/base"-dockerfile, therefore more independent
 
 RUN read command; exec $command                     
 VOLUME /workspace
