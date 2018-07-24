@@ -1,11 +1,12 @@
+#FROM phusion/baseimage
 FROM ubuntu:18.04       
 MAINTAINER openHPI team <openhpi-info@hpi.de>   
 
-# based on the most recent ubuntu LTS directly, not on the "ubuntu-exec/base"-dockerfile, therefore the following line is required
-RUN read command; exec $command                     
+# based on the most recent ubuntu LTS directly, not on the "ubuntu-exec/base"-dockerfile, therefore the following line is required                     
 VOLUME /workspace
 WORKDIR /workspace
 RUN apt-get update || apt-get update
+RUN read command; exec $command
 
 RUN apt-get install -y wget
 RUN apt-get install -y gnupg2
