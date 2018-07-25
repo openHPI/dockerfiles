@@ -10,6 +10,7 @@ RUN read command; exec $command
 
 RUN apt-get install -y wget
 RUN apt-get install -y gnupg2
+RUN apt-get install -y cmake
 
 #RUN echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" > pgdg.list 
 RUN echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" > pgdg.list 
