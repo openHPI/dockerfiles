@@ -1,5 +1,5 @@
-FROM phusion/baseimage
-#FROM ubuntu:18.04       
+#FROM phusion/baseimage
+FROM ubuntu:18.04       
 MAINTAINER openHPI team <openhpi-info@hpi.de>   
 
 # based on the most recent ubuntu LTS directly, not on the "ubuntu-exec/base"-dockerfile, therefore the following line is required                     
@@ -11,8 +11,8 @@ RUN read command; exec $command
 RUN apt-get install -y wget
 RUN apt-get install -y gnupg2
 
-RUN echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" > pgdg.list 
-#RUN echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" > pgdg.list 
+#RUN echo "deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-6.0 main" > pgdg.list 
+RUN echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" > pgdg.list 
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 
