@@ -12,6 +12,7 @@ RUN echo "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-6.0 main" > pgdg
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 
 
-RUN  apt-get install -y clang-6.0
+RUN  apt-get install -y clang-6.0 
 RUN  apt-get install libc6-dev
+RUN  apt-get install libc++abi-dev
 RUN  apt autoremove -y
