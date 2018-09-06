@@ -1,4 +1,4 @@
-FROM ruby:2.5-alpine
+FROM ruby:2.5
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 
 RUN read command; exec $command
@@ -8,3 +8,5 @@ RUN gem install rspec rspec-expectations
 
 VOLUME /workspace
 WORKDIR /workspace
+
+CMD ["/bin/bash"]
