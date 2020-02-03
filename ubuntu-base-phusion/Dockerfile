@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:master
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 
 RUN apt-get update
