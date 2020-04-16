@@ -1,9 +1,11 @@
-import webpython, contextlib, io, json, sys, turtle, ast
-from webpython import shell
+aufgabe=__name__[1:]
+
+import contextlib, io, sys, turtle, ast, os, unittest
+sys.modules['assess'] = sys.modules[__name__]
+dirname = os.path.dirname(__file__)
 
 turtle_operations = []
 bindings = {}
-
 class RecordingPen:
     _pen = None
     _screen = None
@@ -81,12 +83,12 @@ def capture():
         out[1] = out[1].getvalue()
 
 def get_source():
-    message = json.loads(sys.argv[1])
-    return message['data']
+    with open("%s/aufgabe%s.py" % (dirname, aufgabe)) as f:
+        return f.read()
 
 def get_ast():
     s = get_source()
-    return ast.parse(s, "programm.py", "exec")
+    return ast.parse(s, "aufgabe%s.py" % s, "exec")
 
 def has_bare_except():
     for node in ast.walk(get_ast()):
@@ -95,17 +97,19 @@ def has_bare_except():
                 return True
     return False
 
-def runcaptured(prefix='', tracing=None, variables=None, source=''):
-    #message = json.loads(sys.argv[1])
-    #source = prefix + message['data']
-    with open("programm.py", "w", encoding='utf-8') as f:
-        f.write(source)
-    c = compile(source, "programm.py", 'exec')
-    with capture() as out, trace(tracing):
-        if variables is None:
-            variables = {}
-        exec(c, variables)
-    return source, out[0], out[1], variables
+def runcaptured(data=None,tracing=None, variables=None):
+    filename = "%s/aufgabe%s.py" % (dirname, aufgabe)
+    if data:
+        import daten
+        daten.__dict__.update(data)
+    with open(filename) as f:
+        source = f.read()
+        c = compile(source, f, 'exec')
+        with capture() as out, trace(tracing):
+            if variables is None:
+                variables = {}
+            exec(c, variables)
+        return source, out[0], out[1], variables
 
 def runfunc(func, *args, tracing=None):
     with capture() as out, trace(tracing):
@@ -113,28 +117,15 @@ def runfunc(func, *args, tracing=None):
     return out[0], out[1], res
 
 def passed():
-    msg_in = json.loads(sys.argv[1])
-    msg_out = {'cmd':'passed'}
-    msg_out['lis_outcome_service_url'] = msg_in['lis_outcome_service_url']
-    msg_out['lis_result_sourcedid'] = msg_in['lis_result_sourcedid']
-    webpython.shell.sendpickle(msg_out)
+    pass
 
 def failed(msg):
-    msg_in = json.loads(sys.argv[1])
-    msg_out = {'cmd':'failed', 'data':'Dein Programm ist leider falsch:\n'+msg}
-    msg_out['lis_outcome_service_url'] = msg_in['lis_outcome_service_url']
-    msg_out['lis_result_sourcedid'] = msg_in['lis_result_sourcedid']
-    webpython.shell.sendpickle(msg_out)
+    raise AssertionError(msg)
 
 def modified(variables, name, val):
     if variables.get(name) != val:
-        msg_in = json.loads(sys.argv[1])
-        msg_out = {'cmd':'failed',
-                   'data':('Bitte lösche Deine Zuweisung der Variable %s, '+
-                   'damit wir Dein Programm überprüfen können.') % name}
-        msg_out['lis_outcome_service_url'] = msg_in['lis_outcome_service_url']
-        msg_out['lis_result_sourcedid'] = msg_in['lis_result_sourcedid']
-        webpython.shell.sendpickle(msg_out)
+        failed(('Bitte lösche Deine Zuweisung der Variable %s, '+
+                'damit wir Dein Programm überprüfen können.') % name)
         return True
     return False
 
@@ -232,3 +223,15 @@ def trace(t):
     finally:
         if t:
             t.stop()
+
+class Assess(unittest.TestCase):
+    def test_assess(self):
+        with open("%s/a%s.py" % (dirname, aufgabe)) as f:
+            code = compile(f.read(), "a%s.py" % aufgabe, "exec")
+            try:
+                exec(code)
+            except AssertionError as e:
+                if isinstance(e.__context__, AssertionError):
+                    raise e.__context__ from None
+                else:
+                    raise e from None
