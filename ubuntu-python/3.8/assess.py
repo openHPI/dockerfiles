@@ -5,6 +5,7 @@ sys.modules['assess'] = sys.modules[__name__]
 dirname = os.path.dirname(__file__)
 
 turtle_operations = []
+screen_operations = []
 bindings = {}
 class RecordingPen:
     _pen = None
@@ -12,10 +13,12 @@ class RecordingPen:
     def __init__(self):
         self.operations = turtle_operations
         self._pos = (0,0)
+        self._screen = FakeCanvas(turtle.WebCanvas(FakeShell()))
         turtle_operations.append(('__init__',()))
 
     def reset(self):
         turtle_operations.clear()
+        screen_operations.clear()
 
     def onclick(self, fun, btn=1, add=None):
         self.operations.append(('onclick', (fun,)))
@@ -51,12 +54,17 @@ class RecordingPen:
         self.operations.append(('distance', (other)))
         return math.sqrt(math.pow(other._pos[0] - self._pos[0], 2) + math.pow(other._pos[1] - self._pos[1], 2))
 
+    def _screen(self):
+        return FakeCanvas(turtle.WebCanvas(FakeShell()))
+
     def __getattr__(self, method):
         def func(*args):
             self.operations.append((method, args))
         return func
 
 class FakeCanvas(turtle.WebCanvas):
+    operations = screen_operations
+
     def flushbatch(self):
         pass
 
@@ -72,6 +80,16 @@ class FakeCanvas(turtle.WebCanvas):
     def css(self, key, value):
         pass
 
+    def bgcolor(self, color):
+        self.operations.append(('bgcolor', color))
+
+class FakeShell:
+    def sendpickle(self, data):
+        pass
+
+    def receivemsg(self):
+        return {'cmd': 'result', 'exception': '', 'result': {'cmd': 'result'}}
+
 fake_events = []
 def mainloop():
     while fake_events:
@@ -81,7 +99,9 @@ def mainloop():
 
 turtle.Turtle = RecordingPen
 turtle.WebCanvas = FakeCanvas
+turtle.Turtle._screen = FakeCanvas(turtle.WebCanvas(FakeShell()))
 pen = turtle._getpen()
+screen = turtle.Turtle._screen
 turtle.mainloop = mainloop
 
 def filter_operations(name):
