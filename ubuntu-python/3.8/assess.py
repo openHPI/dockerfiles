@@ -27,9 +27,12 @@ class RecordingPen:
             fun(event.x, event.y)
         bindings['<Button-1>'] = eventfun
 
-    def goto(self, x, y):
-        self._pos = (x,y)
-        self.operations.append(('goto', (x,y)))
+    def goto(self, point_or_x, y):
+        if isinstance(point_or_x, tuple):
+            self._pos = point_or_x
+        else:
+            self._pos = (point_or_x,y)
+        self.operations.append(('goto', self._pos))
 
     def left(self, deg):
         self._dir = (self._dir + deg) % 360
@@ -73,9 +76,19 @@ class RecordingPen:
         self._pos = (self.pos()[0] , y)
         self.operations.append(('sety', (y)))
 
-    def distance(self, other):
-        self.operations.append(('distance', (other)))
-        return math.sqrt(math.pow(other._pos[0] - self._pos[0], 2) + math.pow(other._pos[1] - self._pos[1], 2))
+    def distance(self, point_or_x, y=None):
+        if isinstance(point_or_x, tuple):
+            # point_or_x is a point: (x, y)
+            pos = point_or_x
+        elif y is None:
+            # y is not set, use same as turtle
+            pos = (point_or_x, self._pos[1])
+        else:
+            # x and y are both numbers (hopefully...)
+            pos = (point_or_x, y)
+        self.operations.append(('distance', pos))
+
+        return math.sqrt(math.pow(pos[0] - self._pos[0], 2) + math.pow(pos[1] - self._pos[1], 2))
 
     def _screen(self):
         return FakeCanvas(turtle.WebCanvas(FakeShell()))
