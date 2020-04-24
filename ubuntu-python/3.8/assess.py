@@ -1,6 +1,6 @@
 aufgabe=__name__[1:]
 
-import contextlib, io, sys, turtle, ast, os, unittest
+import contextlib, io, sys, turtle, ast, os, unittest, math
 sys.modules['assess'] = sys.modules[__name__]
 dirname = os.path.dirname(__file__)
 
@@ -13,6 +13,7 @@ class RecordingPen:
     def __init__(self):
         self.operations = turtle_operations
         self._pos = (0,0)
+        self._dir = 0
         self._screen = FakeCanvas(turtle.WebCanvas(FakeShell()))
         turtle_operations.append(('__init__',()))
 
@@ -29,6 +30,28 @@ class RecordingPen:
     def goto(self, x, y):
         self._pos = (x,y)
         self.operations.append(('goto', (x,y)))
+
+    def left(self, deg):
+        self._dir = (self._dir + deg) % 360
+        self.operations.append(('left', deg))
+
+    def right(self, deg):
+        self._dir = (self._dir - deg) % 360
+        self.operations.append(('right', deg))
+
+    def forward(self, steps):
+        # Canvas precision within turtle is with two digits after the decimal point.
+        # Hence, we do the same here as well.
+        result_cos = round(math.cos(math.radians(self._dir)), 2)
+        result_sin = round(math.sin(math.radians(self._dir)), 2)
+        self._pos = (self._pos[0] + result_cos*steps, self._pos[1] + result_sin*steps)
+        self.operations.append(('forward', steps))
+
+    def backward(self, steps):
+        result_cos = math.cos(math.radians(self._dir))
+        result_sin = math.sin(math.radians(self._dir))
+        self._pos = (self._pos[0] - result_cos*steps, self._pos[1] - result_sin*steps)
+        self.operations.append(('backward', steps))
 
     def pos(self):
         self.operations.append(('pos', ()))
