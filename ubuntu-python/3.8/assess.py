@@ -7,6 +7,7 @@ dirname = os.path.dirname(__file__)
 turtle_operations = []
 screen_operations = []
 bindings = {}
+turtles = []
 class RecordingPen:
     _pen = None
     _screen = None
@@ -15,6 +16,7 @@ class RecordingPen:
         self._pos = (0,0)
         self._dir = 0
         self._screen = FakeCanvas(turtle.WebCanvas(FakeShell()))
+        turtles.append(self)
         turtle_operations.append(('__init__',()))
 
     def reset(self):
@@ -45,18 +47,23 @@ class RecordingPen:
     def forward(self, steps):
         # Canvas precision within turtle is with two digits after the decimal point.
         # Hence, we do the same here as well.
-        result_cos = round(math.cos(math.radians(self._dir)), 2)
-        result_sin = round(math.sin(math.radians(self._dir)), 2)
-        self._pos = (self._pos[0] + result_cos*steps, self._pos[1] + result_sin*steps)
+        x = round(self._pos[0] + math.cos(math.radians(self._dir)) * steps, 2)
+        y = round(self._pos[1] + math.sin(math.radians(self._dir)) * steps, 2)
+        self._pos = (x, y)
         self.operations.append(('forward', steps))
 
     def backward(self, steps):
-        result_cos = math.cos(math.radians(self._dir))
-        result_sin = math.sin(math.radians(self._dir))
-        self._pos = (self._pos[0] - result_cos*steps, self._pos[1] - result_sin*steps)
+        # Canvas precision within turtle is with two digits after the decimal point.
+        # Hence, we do the same here as well.
+        x = round(self._pos[0] - math.cos(math.radians(self._dir)) * steps, 2)
+        y = round(self._pos[1] - math.sin(math.radians(self._dir)) * steps, 2)
+        self._pos = (x, y)
         self.operations.append(('backward', steps))
 
     def pos(self):
+        # Be sure to check all turtles (using the `turtles` array)
+        # if checking for position in test. Otherwise, only the default turtle and
+        # no new turtles with `t = Turtle()` will be checked.
         self.operations.append(('pos', ()))
         return self._pos
 
