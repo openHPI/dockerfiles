@@ -223,11 +223,11 @@ def getvar(variables, name):
                 return v
         return undefined
 
-def _match(n1, n2):
+def _match(n1, n2, ignoreNone=False):
     if n1 == n2:
         return True
     if n1 is None or n2 is None:
-        return False
+        return ignoreNone
     return n1.lower() == n2.lower()
 
 class Call:
@@ -257,17 +257,20 @@ class Call:
         return False
 
     def countcalls(self, caller, callee):
+        # Call how often a method call is used.
+        # If `caller` is provided (!= None), occurrences only within this method are counted.
+        # Otherwise, the whole program execution incl. loops is considered
         calls = 0
-        if _match(self.name, caller):
+        if _match(self.name, caller, caller is None):
             for c in self.calls:
                 if _match(c.name, callee):
                     calls += 1
-            return calls
         for c in self.calls:
             r = c.countcalls(caller, callee)
-            if r > 0:
+            if r > 0 and caller is not None:
                 return r
-        return 0
+            calls += r
+        return calls
 
 class Tracing(Call):
     def __init__(self):
