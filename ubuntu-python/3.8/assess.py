@@ -28,21 +28,26 @@ class RecordingPen:
         def eventfun(event):
             fun(event.x, event.y)
         bindings['<Button-1>'] = eventfun
+    onscreenclick = onclick
 
-    def goto(self, point_or_x, y):
+    def goto(self, point_or_x, y=None):
         if isinstance(point_or_x, tuple):
             self._pos = point_or_x
         else:
             self._pos = (point_or_x,y)
         self.operations.append(('goto', self._pos))
+    setpos = goto
+    setposition = goto
 
     def left(self, deg):
         self._dir = (self._dir + deg) % 360
         self.operations.append(('left', deg))
+    lt = left
 
     def right(self, deg):
         self._dir = (self._dir - deg) % 360
         self.operations.append(('right', deg))
+    rt = right
 
     def forward(self, steps):
         # Canvas precision within turtle is with two digits after the decimal point.
@@ -51,6 +56,7 @@ class RecordingPen:
         y = round(self._pos[1] + math.sin(math.radians(self._dir)) * steps, 2)
         self._pos = (x, y)
         self.operations.append(('forward', steps))
+    fd = forward
 
     def backward(self, steps):
         # Canvas precision within turtle is with two digits after the decimal point.
@@ -59,6 +65,8 @@ class RecordingPen:
         y = round(self._pos[1] - math.sin(math.radians(self._dir)) * steps, 2)
         self._pos = (x, y)
         self.operations.append(('backward', steps))
+    bk = backward
+    back = backward
 
     def pos(self):
         # Be sure to check all turtles (using the `turtles` array)
@@ -66,6 +74,7 @@ class RecordingPen:
         # no new turtles with `t = Turtle()` will be checked.
         self.operations.append(('pos', ()))
         return self._pos
+    position = pos
 
     def xcor(self):
         self.operations.append(('xcor', ()))
@@ -139,6 +148,7 @@ def mainloop():
         e = turtle.Event(fake_events.pop(0))
         if e.type in bindings:
             bindings[e.type](e)
+done = mainloop
 
 turtle.Turtle = RecordingPen
 turtle.WebCanvas = FakeCanvas
