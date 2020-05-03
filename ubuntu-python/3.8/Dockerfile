@@ -1,11 +1,12 @@
 FROM openhpi/docker_exec_phusion
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 
-RUN add-apt-repository -y ppa:deadsnakes/ppa
-RUN apt-get update
-RUN install_clean python3.8
+RUN add-apt-repository -y ppa:deadsnakes/ppa --no-update
+RUN install_clean python3.8 python3-setuptools python3-pip
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 RUN update-alternatives --set python3 /usr/bin/python3.8
+RUN pip3 install wheel
+RUN pip3 install pylint
 
 RUN locale-gen en_US.UTF-8
 
