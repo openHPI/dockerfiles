@@ -7,6 +7,7 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 RUN update-alternatives --set python3 /usr/bin/python3.8
 RUN pip3 install wheel
 RUN pip3 install pylint
+RUN pip3 install bitstring
 
 RUN locale-gen en_US.UTF-8
 
