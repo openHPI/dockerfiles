@@ -49,6 +49,11 @@ class RecordingPen:
         self.operations.append(('right', deg))
     rt = right
 
+    def setheading(self, direction):
+        self._dir = direction % 360
+        self.operations.append(('setheading', direction))
+    seth = setheading
+
     def forward(self, steps):
         # Canvas precision within turtle is with two digits after the decimal point.
         # Hence, we do the same here as well.
