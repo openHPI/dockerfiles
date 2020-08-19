@@ -98,7 +98,10 @@ class RecordingPen:
         self.operations.append(('sety', (y)))
 
     def distance(self, point_or_x, y=None):
-        if isinstance(point_or_x, tuple):
+        if isinstance(point_or_x, RecordingPen):
+            # point_or_x is another object
+            pos = point_or_x.position()
+        elif isinstance(point_or_x, tuple):
             # point_or_x is a point: (x, y)
             pos = point_or_x
         elif y is None:
@@ -198,8 +201,9 @@ def has_bare_except():
 def runcaptured(data=None,tracing=None, variables=None):
     filename = "%s/aufgabe%s.py" % (dirname, aufgabe)
     if data:
-        import definitionen
-        definitionen.__dict__.update(data)
+        # ToDo: Check that another file called daten.py exists.
+        import daten
+        daten.__dict__.update(data)
     with open(filename) as f:
         source = f.read()
         c = compile(source, filename, 'exec')
