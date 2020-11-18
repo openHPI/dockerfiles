@@ -6,6 +6,6 @@ RUN add-apt-repository -y 'deb https://cloud.r-project.org/bin/linux/ubuntu foca
 
 RUN install_clean r-base build-essential libcurl4-openssl-dev libssl-dev
 
-RUN Rscript -e 'install.packages("berryFunctions", repos="http://cran.rstudio.com")'
-RUN Rscript -e 'if(!requireNamespace("remotes", quietly=TRUE))    install.packages("remotes", repos="http://cran.rstudio.com")'
-RUN Rscript -e 'if(!requireNamespace("codeoceanR", quietly=TRUE)) remotes::install_github("openHPI/codeoceanR")'
+RUN Rscript -e 'install.packages("remotes", repos="http://cran.rstudio.com")'
+RUN Rscript -e 'remotes::install_github("brry/berryFunctions")'
+RUN Rscript -e 'remotes::install_github("openHPI/codeoceanR")'
