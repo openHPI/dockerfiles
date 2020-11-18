@@ -39,6 +39,9 @@ class RecordingPen:
     setpos = goto
     setposition = goto
 
+    def home(self):
+        self.goto(0, 0)
+
     def left(self, deg):
         self._dir = (self._dir + deg) % 360
         self.operations.append(('left', deg))
