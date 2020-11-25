@@ -5,6 +5,7 @@ import os
 import sys
 import builtins
 import json
+import traceback
 
 from argparse import ArgumentParser
 
@@ -165,7 +166,11 @@ if __name__ == '__main__':
     with open(filepath, "r", encoding='utf-8') as f:
         script = f.read()
     c = compile(script, args.filename, 'exec')
-    exec(c, {})
 
-    # work-around for docker not terminating properly
-    shell.sendpickle({'cmd':'exit'})
+    try:
+        exec(c, {})
+    except Exception as e:
+        traceback.print_exception(type(e), e, e.__traceback__)
+    finally:
+        # work-around for docker not terminating properly
+        shell.sendpickle({'cmd':'exit'})

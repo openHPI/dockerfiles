@@ -5,6 +5,7 @@ import os
 import sys
 import builtins
 import json
+import traceback
 
 from argparse import ArgumentParser
 
@@ -109,9 +110,9 @@ class Shell:
 
     def write(self, data, name):
         self.sendpickle({'cmd':'write',
-                       'stream':name,
-                       'data':data
-                       })
+                         'stream':name,
+                         'data':data
+                         })
 
     def input(self, prompt=''):
         self.sendpickle({'cmd':'input',
@@ -126,7 +127,7 @@ class Shell:
         self.capacity -= len(data)
         if self.capacity < 0:
             data = json.dumps({'cmd':'stop',
-                                 'timedout':True}, 2)
+                               'timedout':True}, 2)
             orig_stdout.write(data)
             raise SystemExit
         orig_stdout.write(data)
@@ -165,7 +166,11 @@ if __name__ == '__main__':
     with open(filepath, "r", encoding='utf-8') as f:
         script = f.read()
     c = compile(script, args.filename, 'exec')
-    exec(c, {})
 
-    # work-around for docker not terminating properly
-    shell.sendpickle({'cmd':'exit'})
+    try:
+        exec(c, {})
+    except Exception as e:
+        traceback.print_exception(type(e), e, e.__traceback__)
+    finally:
+        # work-around for docker not terminating properly
+        shell.sendpickle({'cmd':'exit'})
