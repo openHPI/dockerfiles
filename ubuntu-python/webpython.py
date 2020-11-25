@@ -165,9 +165,8 @@ if __name__ == '__main__':
     filepath = os.path.join("/", "workspace", args.filename)
     with open(filepath, "r", encoding='utf-8') as f:
         script = f.read()
-    c = compile(script, args.filename, 'exec')
-
     try:
+        c = compile(script, args.filename, 'exec')
         exec(c, {})
     except Exception as e:
         traceback.print_exception(type(e), e, e.__traceback__)
