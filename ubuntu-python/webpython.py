@@ -6,6 +6,7 @@ import sys
 import builtins
 import json
 import traceback
+import time
 
 from argparse import ArgumentParser
 
@@ -132,6 +133,10 @@ class Shell:
             raise SystemExit
         orig_stdout.write(data)
 
+    def flush(self):
+        orig_stdout.flush()
+        time.sleep(0.1)
+
     def receivepickle(self):
         msg = json.loads(orig_stdin.readline())
         if msg['cmd'] == 'canvasevent':
@@ -172,4 +177,5 @@ if __name__ == '__main__':
         traceback.print_exception(type(e), e, e.__traceback__)
     finally:
         # work-around for docker not terminating properly
+        shell.flush()
         shell.sendpickle({'cmd':'exit'})
