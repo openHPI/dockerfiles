@@ -337,7 +337,7 @@ class Assess(unittest.TestCase):
         with open("%s/a%s.py" % (dirname, exercise)) as f:
             code = compile(f.read(), "a%s.py" % exercise, "exec")
             try:
-                exec(code)
+                exec(code, globals())
             except AssertionError as e:
                 if isinstance(e.__context__, AssertionError):
                     raise e.__context__ from None
