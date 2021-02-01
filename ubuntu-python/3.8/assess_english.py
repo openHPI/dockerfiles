@@ -191,9 +191,24 @@ def get_source():
     with open("%s/exercise%s.py" % (dirname, exercise)) as f:
         return f.read()
 
-def get_ast():
-    s = get_source()
-    return ast.parse(s, "exercise%s.py" % s, "exec")
+def get_ast(src=get_source()):
+    return ast.parse(src, "exercise%s.py" % src, "exec")
+
+def get_src_without_comments(src=get_source()):
+    tree = get_ast(src)
+    noc = [] # noc: no outer comments (at script level)
+    for b in tree.body:
+        code = ast.get_source_segment(src, b) # Since python 3.8
+        if code.strip().startswith('"'): continue # remove multiline comments
+        if code.strip().startswith("'"): continue
+        noc.append(code)
+    # remove # comments from indented code (kept by ast.parse):
+    out = []
+    for line in "\n".join(noc).splitlines():
+        if not line.strip().startswith("#"):
+            out.append(line)
+    out = "\n".join(out) # list to charstring
+    return out
 
 def has_bare_except():
     for node in ast.walk(get_ast()):
