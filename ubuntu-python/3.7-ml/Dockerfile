@@ -20,7 +20,6 @@ ADD webpython.py /usr/lib/python3.7/webpython.py
 
 RUN rm /usr/lib/python3.7/turtle.py
 
-RUN adduser --disabled-password --gecos Python python
 ADD turtle.py /usr/lib/python3.8/turtle.py
 
-USER python
+USER user
