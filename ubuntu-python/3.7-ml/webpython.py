@@ -122,6 +122,10 @@ class Shell:
         result = self.receivemsg()
         return result['data']
 
+    # clearing stdout / shell
+    def clear(self):
+        self.sendpickle({'cmd':'clear'})
+
     # internal
     def sendpickle(self, data):
         data = json.dumps(data) + "\n\r"
@@ -160,6 +164,7 @@ sys.__stdin__ = sys.stdin = PseudoInputFile(shell, 'stdin')
 sys.__stdout__ = sys.stdout = PseudoOutputFile(shell, 'stdout')
 sys.__stderr__ = sys.stderr = PseudoOutputFile(shell, 'stderr')
 builtins.input = shell.input
+builtins.clear = shell.clear
 
 
 if __name__ == '__main__':
