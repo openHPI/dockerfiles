@@ -1,4 +1,4 @@
-FROM openhpi/docker_exec
+FROM openhpi/docker_exec_phusion
 MAINTAINER openHPI team <openhpi-info@hpi.de>
 
 RUN apt-get update && apt-get install -y g++ libffi-dev libssl-dev make wget zlib1g-dev
@@ -9,3 +9,5 @@ RUN gem install rspec rspec-expectations rubocop
 ENV LANG C.UTF-8
 ENV LANGUAGE C.UTF-8
 ENV LANG_ALL C.UTF-8
+
+USER user

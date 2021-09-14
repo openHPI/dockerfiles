@@ -14,6 +14,5 @@ ENV LANG en_US.UTF-8
 ENV JAVA_HOME /usr/lib/jvm/java-16-oracle
 ENV JUNIT /usr/java/lib/junit-platform-console-standalone-1.7.2-all.jar
 ENV CLASSPATH .:$JUNIT
-RUN adduser --disabled-password --gecos Java java
 
-USER java
+USER user
