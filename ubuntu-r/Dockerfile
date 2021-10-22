@@ -9,3 +9,4 @@ RUN install_clean r-base build-essential libcurl4-openssl-dev libssl-dev
 RUN Rscript -e 'install.packages("remotes", repos="http://cran.rstudio.com")'
 RUN Rscript -e 'remotes::install_github("brry/berryFunctions")'
 RUN Rscript -e 'remotes::install_github("openHPI/codeoceanR")'
+RUN Rscript -e 'install.packages("zoo")'
