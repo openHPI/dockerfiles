@@ -128,7 +128,7 @@ class Shell:
 
     # internal
     def sendpickle(self, data):
-        data = json.dumps(data) + "\n\r"
+        data = json.dumps(data) + "\n"
         self.capacity -= len(data)
         if self.capacity < 0:
             data = json.dumps({'cmd':'stop',
