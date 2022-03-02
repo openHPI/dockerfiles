@@ -1,7 +1,7 @@
 FROM openhpi/docker_exec_phusion
 MAINTAINER openHPI Team <openhpi-info@hpi.de>
 LABEL description='This image provides a R 4.0 environment with custom libraries from Berry.'
-LABEL run_command='Rscript -e "source('%{filename}', echo=TRUE)"'
+LABEL run_command='Rscript -e "options(warn=1); source('%{filename}', echo=TRUE)"'
 LABEL test_command='Rscript %{filename}'
 
 # Install latest R version 4.0
