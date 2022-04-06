@@ -17,5 +17,8 @@ RUN Rscript -e 'install.packages("remotes", repos="https://cran.rstudio.com")'
 RUN Rscript -e 'remotes::install_github("brry/berryFunctions")'
 RUN Rscript -e 'remotes::install_github("openHPI/codeoceanR")'
 
+# Adjust Path variables
+ENV PAGER /usr/bin/cat
+
 # Switch user
 USER user
