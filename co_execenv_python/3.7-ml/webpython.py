@@ -181,6 +181,4 @@ if __name__ == '__main__':
     except Exception as e:
         traceback.print_exception(type(e), e, e.__traceback__)
     finally:
-        # work-around for docker not terminating properly
         shell.flush()
-        shell.sendpickle({'cmd':'exit'})
