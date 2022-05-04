@@ -11,7 +11,10 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 RUN update-alternatives --set python3 /usr/bin/python3.8
 
 # Add some Python packages
-RUN pip3 install wheel pylint\<2.6 bitstring
+# `pylint` is used for the linter output
+# `bitstring` is used for WWW exercises
+# `requests py-sudoku` is used for the python1 openSAP course
+RUN pip3 install wheel pylint\<2.6 bitstring requests py-sudoku
 
 # Adjust Path variables
 ENV PYTHONPATH $PYTHONPATH:/usr/lib/python3.8:/workspace
