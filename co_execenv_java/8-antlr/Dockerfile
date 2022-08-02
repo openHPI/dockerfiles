@@ -12,7 +12,7 @@ RUN install_clean openjdk-8-jdk make
 # Add JUnit 4 and Antlr
 RUN mkdir -p /usr/java/lib
 ADD hamcrest-core-1.3.jar /usr/java/lib/
-ADD junit-4.11.jar /usr/java/lib/
+ADD junit-4.13.jar /usr/java/lib/
 ADD antlr-4.5-complete.jar /usr/local/lib/
 ADD antlr-java8.jar /usr/java/lib/
 
