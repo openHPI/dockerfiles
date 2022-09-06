@@ -11,7 +11,7 @@ RUN apt-get update
 RUN apt-get upgrade -y
 
 RUN apt-get install -y wget make python2.7 gcc
-RUN wget http://olivier.sessink.nl/jailkit/jailkit-2.19.tar.gz
+RUN wget https://olivier.sessink.nl/jailkit/jailkit-2.19.tar.gz
 RUN tar -xzvf jailkit-2.19.tar.gz
 
 ENV PYTHONINTERPRETER /usr/bin/python2.7

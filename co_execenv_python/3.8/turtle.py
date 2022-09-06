@@ -34,7 +34,7 @@ By combining together these and similar commands, intricate shapes and
 pictures can easily be drawn.
 ----- turtle.py
 This module is an extended reimplementation of turtle.py from the
-Python standard distribution up to Python 2.5. (See: http://www.python.org)
+Python standard distribution up to Python 2.5. (See: https://www.python.org)
 It tries to keep the merits of turtle.py and to be (nearly) 100%
 compatible with it. This means in the first place to enable the
 learning programmer to use all the commands, classes and methods
@@ -358,7 +358,7 @@ class WebCanvas:
             result = self.shell.receivemsg()
             if result['cmd'] == 'result':
                 return result.get('result') # might be None as JSON leaves out undefined values
-            else:                
+            else:
                 raise getattr(builtins, result['exception'])(result['message'])
         return call
 
@@ -367,7 +367,7 @@ class WebCanvas:
         event = Event(msg)
         if event.type in self.bindings:
             self.bindings[event.type](event)
-            
+
 
 class TurtleScreenBase(object):
     """Provide the basic graphics functionality.
@@ -717,7 +717,7 @@ class TurtleScreenBase(object):
         while True:
             i = i+1
             self.cv.getevent()
-            
+
 
     def textinput(self, title, prompt):
         """Pop up a dialog window for input of a string.
