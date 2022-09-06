@@ -6,10 +6,10 @@ LABEL test_command='rspec --format documentation --no-color %{filename}'
 
 # Install Ruby version 2.5
 RUN add-apt-repository -y ppa:brightbox/ruby-ng --no-update
-RUN install_clean ruby2.5
+RUN install_clean ruby2.5 ruby2.5-dev build-essential
 
 # Add some Ruby gems
-RUN gem install rspec rspec-expectations minitest rubocop
+RUN gem install rspec rspec-expectations minitest:5.15 rubocop-ast:1.17 rubocop:1.28
 
 # Switch user
 USER user
