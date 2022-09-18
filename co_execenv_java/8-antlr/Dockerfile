@@ -21,6 +21,3 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV JUNIT /usr/java/lib/junit-4.13.jar
 ENV HAMCREST /usr/java/lib/hamcrest-core-1.3.jar
 ENV CLASSPATH .:$JUNIT:$HAMCREST
-
-# Switch user
-USER user

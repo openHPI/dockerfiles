@@ -17,8 +17,3 @@ RUN npm install -g mocha@3.2.0 q@1.4.1
 
 # Adjust Path variables
 ENV NODE_PATH=/usr/local/lib/node_modules
-
-# Switch user
-USER user
-
-

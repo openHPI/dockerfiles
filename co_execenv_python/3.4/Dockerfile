@@ -23,6 +23,3 @@ ADD webpython.py /usr/lib/python3.4/webpython.py
 # Replace maintainers turtle version
 RUN rm /usr/lib/python3.4/turtle.py
 ADD turtle.py /usr/lib/python3.4/turtle.py
-
-# Switch user
-USER user

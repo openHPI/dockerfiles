@@ -6,7 +6,7 @@ LABEL description='This image is the base for all other execution environments.'
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Create a non-privilidged user called with a new group having the same name
+# Create a non-privileged user called with a new group having the same name
 RUN adduser --disabled-password --home /workspace --no-create-home --gecos "CodeOcean User" user
 
 # The /workspace folder is a location accessible to the user.
@@ -34,6 +34,9 @@ ENV TERM=ansi
 ENV COLUMNS=10000
 # Identify this environment as being part of CodeOcean.
 ENV CODEOCEAN=true
+
+# We start the container with the pre-configured init script and swith to our non-privileged user
+ENTRYPOINT ["/sbin/my_init", "--quiet", "--skip-runit", "--", "/sbin/setuser", "user"]
 
 # We want to start with an empty bash session for any user that launches the container
 CMD ["/bin/bash"]

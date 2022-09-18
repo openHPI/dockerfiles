@@ -17,6 +17,3 @@ RUN wget -P /usr/java/lib https://repo1.maven.org/maven2/org/junit/platform/juni
 ENV JAVA_HOME /usr/lib/jvm/java-17-oracle
 ENV JUNIT /usr/java/lib/junit-platform-console-standalone-1.8.1.jar
 ENV CLASSPATH .:$JUNIT
-
-# Switch user
-USER user
