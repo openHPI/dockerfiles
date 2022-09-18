@@ -24,11 +24,7 @@ The following images are probably not compatible with Poseidon or other runner m
 
 ## New or updated images
 
-Each image derived from `docker_exec_phusion` should switch the user at the end of the `Dockerfile`. This ensures that users do not gain elevated privileges in their container: 
-
-```dockerfile
-USER user
-```
+Each image derived from `docker_exec_phusion` should be compatible with a non-privileged user called `user`. Any user code will be executed as this user with the `/sbin/setuser` script provided by the base image.
 
 ### Build
 

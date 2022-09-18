@@ -21,6 +21,3 @@ RUN pip3 install beautifulsoup4 flask flask-bootstrap
 # Adjust Path variables
 ENV PYTHONPATH $PYTHONPATH:/usr/lib/python3.4:/workspace
 ENV PATH $PATH:/usr/lib/python3.4
-
-# Switch user
-USER user

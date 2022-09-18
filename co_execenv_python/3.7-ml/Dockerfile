@@ -20,6 +20,3 @@ ENV PATH $PATH:/usr/lib/python3.7
 
 # Add custom files to Python path
 ADD webpython.py /usr/lib/python3.7/webpython.py
-
-# Switch user
-USER user

@@ -19,6 +19,3 @@ RUN Rscript -e 'remotes::install_github("openHPI/codeoceanR")'
 
 # Adjust Path variables
 ENV PAGER /usr/bin/cat
-
-# Switch user
-USER user
