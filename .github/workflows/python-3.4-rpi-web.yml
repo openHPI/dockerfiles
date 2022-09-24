@@ -1,4 +1,4 @@
-name: "Publish new Python:3.4 image"
+name: "Publish Python:3.4-rpi-web image"
 
 on: workflow_dispatch
 

@@ -1,4 +1,4 @@
-name: "Publish new Python:3.7-ml image"
+name: "Publish Python:3.7-ml image"
 
 on: workflow_dispatch
 

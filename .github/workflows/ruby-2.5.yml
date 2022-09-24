@@ -1,4 +1,4 @@
-name: "Publish new R:4 image"
+name: "Publish Ruby:2.5 image"
 
 on: workflow_dispatch
 

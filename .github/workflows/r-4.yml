@@ -1,4 +1,4 @@
-name: "Publish new R:4 image"
+name: "Publish R:4 image"
 
 on: workflow_dispatch
 

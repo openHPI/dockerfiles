@@ -1,4 +1,4 @@
-name: "Publish new Java:17 image"
+name: "Publish Java:17 image"
 
 on: workflow_dispatch
 

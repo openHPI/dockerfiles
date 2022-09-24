@@ -1,4 +1,4 @@
-name: "Publish new Java:8-antlr image"
+name: "Publish Java:8-antlr image"
 
 on: workflow_dispatch
 

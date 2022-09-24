@@ -1,4 +1,4 @@
-name: "Publish new Node:0.12 image"
+name: "Publish Node:0.12 image"
 
 on: workflow_dispatch
 
