@@ -12,7 +12,7 @@ RUN update-alternatives --set python3 /usr/bin/python3.7
 
 # Add some Python packages
 RUN pip3 install wheel pylint\<2.6 bitstring
-RUN pip3 install pandas torch==1.8.0+cpu torchvision==0.9.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip3 install pandas torch==1.8.0 torchvision==0.9.1 -f https://download.pytorch.org/whl/cpu
 
 # Adjust Path variables
 ENV PYTHONPATH $PYTHONPATH:/usr/lib/python3.7:/workspace

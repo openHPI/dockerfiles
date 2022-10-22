@@ -15,12 +15,19 @@ Each execution environment should be derived from docker_exec_phusion
 - `docker_exec_phusion`: Base image for all execution environments
 - `co_execenv_<langauge>`: An image used by CodeOcean for the specific programming language and version
 
+All supported images are built for the following architectures:
+
+- `amd64`
+- `arm64`
+
 ### Deprecated images
 
 The following images are probably not compatible with Poseidon or other runner managements. Their use is discouraged.
 
 - `ubuntu-base`: Deprecated ubuntu base image
 - `ubuntu-<language>`: Deprecated images previously used by CodeOcean
+
+Deprecated images are only available for the `amd64` architecture.
 
 ## New or updated images
 

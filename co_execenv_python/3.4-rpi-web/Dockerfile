@@ -4,9 +4,16 @@ LABEL description='This image provides a Python 3.4 environment with selenium an
 LABEL run_command='make run'
 LABEL test_command='python3 -B -m unittest --verbose %{module_name}'
 
+# Get target architecture from Docker buildx
+ARG TARGETARCH
+
 # Install Python version 3.4
 RUN add-apt-repository -y "deb http://ppa.launchpad.net/deadsnakes/ppa/ubuntu bionic main" --no-update
-RUN add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu bionic main" --no-update
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        add-apt-repository -y "deb http://ports.ubuntu.com/ bionic main" --no-update; \
+    else \
+        add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu bionic main" --no-update; \
+    fi
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F23C5A6CF475977595C89F51BA6932366A755776
 RUN install_clean python3.4 python3.4-dev gcc make
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.4 1

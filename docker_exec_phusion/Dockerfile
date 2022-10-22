@@ -3,8 +3,8 @@ MAINTAINER openHPI Team <openhpi-info@hpi.de>
 LABEL description='This image is the base for all other execution environments.'
 
 # Update the system
-RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold"
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create a non-privileged user called with a new group having the same name
 RUN adduser --disabled-password --home /workspace --no-create-home --gecos "CodeOcean User" user

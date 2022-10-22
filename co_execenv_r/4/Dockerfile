@@ -4,9 +4,17 @@ LABEL description='This image provides a R 4.0 environment with custom libraries
 LABEL run_command='Rscript -e "options(warn=1); source('%{filename}', echo=TRUE)"'
 LABEL test_command='Rscript %{filename}'
 
+# Get target architecture from Docker buildx
+ARG TARGETARCH
+
 # Install latest R version 4.0
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
-RUN add-apt-repository -y 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'  --no-update
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5E25F516B04C661B && \
+        add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+ --no-update; \
+    else \
+        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
+        add-apt-repository -y 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'  --no-update; \
+    fi
 RUN install_clean r-base build-essential libcurl4-openssl-dev libssl-dev libpoppler-cpp-dev poppler-data libjpeg-dev libz-dev
 
 # Add custom packages
