@@ -11,7 +11,8 @@ RUN adduser --disabled-password --home /workspace --no-create-home --gecos "Code
 
 # The /workspace folder is a location accessible to the user.
 RUN mkdir /workspace
-RUN chown user:user /workspace
+# We set the sticky bit to make sure that only the owner can rename and delete files in this folder.
+RUN chmod +t /workspace
 
 # For the DockerContainerPool, the workspace folder must be accessible as a
 # volume. For Poseidon, this is not necessary.
