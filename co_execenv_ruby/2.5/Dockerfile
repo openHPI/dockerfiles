@@ -4,8 +4,16 @@ LABEL description='This image provides a Ruby 2.5 environment with rspec, minite
 LABEL run_command='ruby %{filename}'
 LABEL test_command='rspec --format documentation --no-color %{filename}'
 
-# Install Ruby version 2.5
-RUN add-apt-repository -y ppa:ticketsolve/ruby-builds --no-update
+# Get target architecture from Docker buildx
+ARG TARGETARCH
+
+# Install Ruby version 2.5 with a fixed Ubunut version
+RUN add-apt-repository -y 'deb https://ppa.launchpadcontent.net/ticketsolve/ruby-builds/ubuntu focal main' --no-update
+RUN if [ "$TARGETARCH" = "arm64" ]; then \
+        add-apt-repository -y "deb http://ports.ubuntu.com/ubuntu-ports focal-updates main" --no-update; \
+    else \
+        add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu focal-updates main" --no-update; \
+    fi
 RUN install_clean ruby2.5
 
 # Add some Ruby gems

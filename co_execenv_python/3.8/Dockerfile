@@ -6,7 +6,7 @@ LABEL test_command='python3 -B -m unittest --verbose %{module_name}'
 
 # Install Python version 3.8
 RUN add-apt-repository -y ppa:deadsnakes/ppa --no-update
-RUN install_clean python3.8 python3-setuptools python3-pip
+RUN install_clean python3.8 python3.8-distutils python3-setuptools python3-pip
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
 RUN update-alternatives --set python3 /usr/bin/python3.8
 

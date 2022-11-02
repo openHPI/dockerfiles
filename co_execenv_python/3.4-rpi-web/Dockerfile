@@ -14,7 +14,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
     else \
         add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu bionic main" --no-update; \
     fi
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F23C5A6CF475977595C89F51BA6932366A755776
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys F23C5A6CF475977595C89F51BA6932366A755776 3B4FE6ACC0B21F32
 RUN install_clean python3.4 python3.4-dev gcc make
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.4 1
 RUN update-alternatives --set python3 /usr/bin/python3.4

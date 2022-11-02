@@ -1,12 +1,28 @@
 #!/usr/bin/env bash
 
 # Install tools for mk-build-deps
-install_clean dpkg-dev devscripts equivs
+install_clean dpkg-dev devscripts equivs python2
+update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+update-alternatives --set python2 /usr/bin/python2
 
 # Cache source lists
 apt-get update
 
 mkdir -p /tmp/build && cd /tmp/build
+
+tee -a python <<EOF
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+
+Package: python
+Version: 2.99
+Depends: python2
+Provides: python
+Description: Fake a python package and use python2 instead
+EOF
+
+equivs-build python && dpkg -i python_2.99_all.deb
 
 apt-get source nodejs=0.12.18-1nodesource1~xenial1
 cd nodejs-0.12.18 && mk-build-deps --install --remove --tool 'apt-get --no-install-recommends --yes'
