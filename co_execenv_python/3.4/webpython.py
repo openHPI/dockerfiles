@@ -131,8 +131,8 @@ class Shell:
         data = json.dumps(data) + "\n"
         self.capacity -= len(data)
         if self.capacity < 0:
-            data = json.dumps({'cmd':'stop',
-                               'timedout':True}, 2)
+            data = json.dumps({'cmd':'status',
+                               'status':'buffer_overflow'}, 2)
             orig_stdout.write(data)
             raise SystemExit
         orig_stdout.write(data)
