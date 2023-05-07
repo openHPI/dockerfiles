@@ -41,16 +41,16 @@ docker build --no-cache -t openhpi/co_execenv_java:17 co_execenv_java/17/.
 # ...
 ```
 
-### Push
-
-```shell
-docker push openhpi/docker_exec_phusion
-docker push openhpi/co_execenv_java:17
-# ...
-```
-
 ### Debugging
 
 ````shell
 docker run -it openhpi/docker_exec_phusion bash
 ````
+
+### Publishing
+
+All images are published to [Docker Hub](https://hub.docker.com/u/openhpi) and always support the `amd64` and `arm64` architectures.
+
+```shell
+docker buildx build --platform linux/amd64,linux/arm64 --tag openhpi/docker_exec_java:17 --push co_execenv_java/17/.
+```
