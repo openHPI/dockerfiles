@@ -1,8 +1,8 @@
 FROM openhpi/docker_exec_phusion
 MAINTAINER openHPI Team <openhpi-info@hpi.de>
 LABEL description='This image provides a Julia 1.8 environment.'
-LABEL run_command='julia %{filename}'
-LABEL test_command='julia %{filename}'
+LABEL run_command='julia --color=no %{filename}'
+LABEL test_command='julia --color=no %{filename}'
 
 # Get target architecture from Docker buildx
 ARG TARGETARCH
