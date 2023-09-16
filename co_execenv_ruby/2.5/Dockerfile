@@ -14,7 +14,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
     else \
         add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu focal-updates main" --no-update; \
     fi
-RUN install_clean ruby2.5
+RUN install_clean build-essential ruby2.5
 
 # Add some Ruby gems
 RUN gem install rspec rspec-expectations minitest:5.15 rubocop-ast:1.17 rubocop:1.28
