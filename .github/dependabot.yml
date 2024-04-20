@@ -1,6 +1,16 @@
 version: 2
 
 updates:
+  - package-ecosystem: docker
+    directory: "/docker_exec_phusion"
+    schedule:
+      interval: daily
+      time: "03:00"
+      timezone: UTC
+    labels:
+      - dependencies
+      - docker
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
