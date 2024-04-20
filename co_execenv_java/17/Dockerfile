@@ -4,16 +4,18 @@ LABEL description='This image provides a Java 17.0 environment with JUnit 5 supp
 LABEL run_command='make run'
 LABEL test_command='make test CLASS_NAME="%{class_name}" FILENAME="%{filename}"'
 
-# Install latest Java version 17.0
-RUN add-apt-repository ppa:linuxuprising/java --no-update -y
-RUN echo oracle-java17-installer shared/accepted-oracle-license-v1-3 select true | /usr/bin/debconf-set-selections
-RUN install_clean oracle-java17-set-default make
+# Get target architecture from Docker buildx
+ARG TARGETARCH
+
+# Install latest OpenJDK version 17.0
+RUN install_clean openjdk-17-jdk make
 
 # Add JUnit 5 Platform
+ARG JUNIT_VERSION=1.10.2
 RUN mkdir -p /usr/java/lib
-RUN wget -P /usr/java/lib https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.1/junit-platform-console-standalone-1.8.1.jar
+RUN curl -fsSL -O --output-dir /usr/java/lib https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/$JUNIT_VERSION/junit-platform-console-standalone-$JUNIT_VERSION.jar
 
 # Adjust Path variables
-ENV JAVA_HOME /usr/lib/jvm/java-17-oracle
-ENV JUNIT /usr/java/lib/junit-platform-console-standalone-1.8.1.jar
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-$TARGETARCH
+ENV JUNIT /usr/java/lib/junit-platform-console-standalone-$JUNIT_VERSION.jar
 ENV CLASSPATH .:$JUNIT

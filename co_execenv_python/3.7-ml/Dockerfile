@@ -6,11 +6,12 @@ LABEL test_command='python3 -B -m unittest --verbose %{module_name}'
 
 # Install Python version 3.7
 RUN add-apt-repository -y ppa:deadsnakes/ppa --no-update
-RUN install_clean python3.7 python3-setuptools python3-pip python3.7-distutils
+RUN install_clean python3.7 python3.7-distutils python3-pip
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
 RUN update-alternatives --set python3 /usr/bin/python3.7
 
 # Add some Python packages
+RUN pip3 install setuptools\<68 # Pylint <2.6 (or, specifically wrapt <1.13) is not compatible with setuptools >=68
 RUN pip3 install wheel pylint\<2.6 bitstring
 RUN pip3 install pandas torch==1.8.1 torchvision==0.9.1 -f https://download.pytorch.org/whl/cpu
 
