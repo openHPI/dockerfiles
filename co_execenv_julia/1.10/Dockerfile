@@ -14,11 +14,11 @@ RUN install_clean clang
 ENV JULIA_HOME /opt/julia
 RUN mkdir -p $JULIA_HOME
 
-# Install Julia version 1.9 with the official binaries
+# Install Julia version 1.10 with the official binaries
 RUN if [ "$TARGETARCH" = "arm64" ]; then \
-        curl -fsSL https://julialang-s3.julialang.org/bin/linux/aarch64/1.10/julia-1.10.0-beta2-linux-aarch64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
+        curl -fsSL https://julialang-s3.julialang.org/bin/linux/aarch64/1.10/julia-1.10.2-linux-aarch64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
     else \
-        curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-1.10.0-beta2-linux-x86_64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
+        curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-1.10.2-linux-x86_64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
     fi
 
 # Add Julia to the path

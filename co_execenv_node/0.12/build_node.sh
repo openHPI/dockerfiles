@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
 # Install tools for mk-build-deps
+if [ "$TARGETARCH" = "arm64" ]; then \
+    add-apt-repository -y "deb http://ports.ubuntu.com/ubuntu-ports jammy universe" --no-update; \
+else \
+    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu jammy universe" --no-update; \
+fi
 install_clean dpkg-dev devscripts equivs python2
 update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 update-alternatives --set python2 /usr/bin/python2

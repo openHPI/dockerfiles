@@ -8,8 +8,6 @@ LABEL test_command='make test CLASS_NAME="%{class_name}" FILENAME="%{filename}"'
 ARG TARGETARCH
 
 # Install latest OpenJDK version 8.0
-RUN add-apt-repository ppa:linuxuprising/java --no-update -y
-RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-2 select true | /usr/bin/debconf-set-selections
 RUN install_clean openjdk-8-jdk make
 
 # Add JUnit 4 and Antlr
