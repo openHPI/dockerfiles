@@ -1,4 +1,4 @@
-FROM phusion/baseimage:jammy-1.0.1
+FROM phusion/baseimage:jammy-1.0.4
 MAINTAINER openHPI Team <openhpi-info@hpi.de>
 LABEL description='This image is the base for all other execution environments.'
 
