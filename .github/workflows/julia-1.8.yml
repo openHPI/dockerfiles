@@ -26,6 +26,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ${{ env.IMAGE_NAME }}/${{ env.IMAGE_TAG }}
+          # Cross-compiling for linux/arm64 won't work. See https://github.com/JuliaLang/julia/issues/49474
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
