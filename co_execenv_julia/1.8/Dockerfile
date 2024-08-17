@@ -15,10 +15,11 @@ ENV JULIA_HOME /opt/julia
 RUN mkdir -p $JULIA_HOME
 
 # Install Julia version 1.8 with the official binaries
+ARG JULIA_VERSION=1.8.5
 RUN if [ "$TARGETARCH" = "arm64" ]; then \
-        curl -fsSL https://julialang-s3.julialang.org/bin/linux/aarch64/1.8/julia-1.8.5-linux-aarch64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
+        curl -fsSL https://julialang-s3.julialang.org/bin/linux/aarch64/1.8/julia-${JULIA_VERSION}-linux-aarch64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
     else \
-        curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/1.8/julia-1.8.5-linux-x86_64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
+        curl -fsSL https://julialang-s3.julialang.org/bin/linux/x64/1.8/julia-${JULIA_VERSION}-linux-x86_64.tar.gz | tar -xz -C $JULIA_HOME --strip-components=1; \
     fi
 
 # Add Julia to the path
