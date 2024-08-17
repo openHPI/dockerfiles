@@ -12,13 +12,17 @@ RUN install_clean openjdk-8-jdk make
 
 # Add JUnit 4 and Antlr
 RUN mkdir -p /usr/java/lib
-ADD hamcrest-core-1.3.jar /usr/java/lib/
-ADD junit-4.13.jar /usr/java/lib/
-ADD antlr-4.5-complete.jar /usr/local/lib/
+ARG HAMCREST_VERSION=1.3
+ARG JUNIT_VERSION=4.13
+ARG ANTLR_VERSION=4.5
+RUN curl -fsSL -O --output-dir /usr/java/lib https://repo1.maven.org/maven2/org/hamcrest/hamcrest/$HAMCREST_VERSION/hamcrest-$HAMCREST_VERSION.jar
+RUN curl -fsSL -O --output-dir /usr/java/lib https://repo1.maven.org/maven2/junit/junit/$JUNIT_VERSION/junit-$JUNIT_VERSION.jar
+RUN curl -fsSL -O --output-dir /usr/java/lib https://www.antlr.org/download/antlr-${ANTLR_VERSION}-complete.jar
+# I could not find the antlr-java8.jar file anywhere, so I added it manually
 ADD antlr-java8.jar /usr/java/lib/
 
 # Adjust Path variables
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-$TARGETARCH
-ENV JUNIT /usr/java/lib/junit-4.13.jar
-ENV HAMCREST /usr/java/lib/hamcrest-core-1.3.jar
+ENV HAMCREST /usr/java/lib/hamcrest-$HAMCREST_VERSION.jar
+ENV JUNIT /usr/java/lib/junit-$JUNIT_VERSION.jar
 ENV CLASSPATH .:$JUNIT:$HAMCREST
