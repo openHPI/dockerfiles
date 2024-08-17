@@ -11,7 +11,7 @@ ARG TARGETARCH
 RUN install_clean openjdk-17-jdk make
 
 # Add JUnit 5 Platform
-ARG JUNIT_VERSION=1.10.2
+ARG JUNIT_VERSION=1.11.0
 RUN mkdir -p /usr/java/lib
 RUN curl -fsSL -O --output-dir /usr/java/lib https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/$JUNIT_VERSION/junit-platform-console-standalone-$JUNIT_VERSION.jar
 
