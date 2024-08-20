@@ -37,8 +37,8 @@ ENV COLUMNS=10000
 # Identify this environment as being part of CodeOcean.
 ENV CODEOCEAN=true
 
-# We start the container with the pre-configured init script and swith to our non-privileged user
-ENTRYPOINT ["/sbin/my_init", "--quiet", "--skip-runit", "--", "/sbin/setuser", "user"]
+# We start the container with the pre-configured init script and switch to our non-privileged user without access to the environment variables
+ENTRYPOINT ["/sbin/my_init", "--quiet", "--skip-runit", "--", "env", "-i", "/sbin/setuser", "user"]
 
 # We want to start with an empty bash session for any user that launches the container
 CMD ["/bin/bash"]
