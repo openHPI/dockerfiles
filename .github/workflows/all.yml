@@ -10,6 +10,7 @@ on:
 env:
   # Those workflows should not be triggered when a new base image has been rebuilt.
   EXCLUDE_WORKFLOWS: "all.yml dependabot.yml phusion.yml"
+  GITHUB_TOKEN: ${{ secrets.OPENHPI_BOT_TOKEN }}
 
 jobs:
   docker:
