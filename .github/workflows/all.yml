@@ -1,0 +1,27 @@
+name: "Publish all execution images"
+
+on:
+  workflow_run:
+    workflows:
+      - Publish base image
+    types:
+      - completed
+
+env:
+  # Those workflows should not be triggered when a new base image has been rebuilt.
+  EXCLUDE_WORKFLOWS: "all.yml dependabot.yml phusion.yml"
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Trigger other workflows
+        run: |
+          for workflow in .github/workflows/*.yml; do
+            if [[ ! " ${EXCLUDE_WORKFLOWS[@]} " =~ " $(basename $workflow) " ]]; then
+              echo "Triggering workflow run $(basename $workflow)"
+              gh workflow run $(basename $workflow)
+            fi
+          done
