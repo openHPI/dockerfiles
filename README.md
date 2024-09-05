@@ -54,3 +54,11 @@ All images are published to [Docker Hub](https://hub.docker.com/u/openhpi) and a
 ```shell
 docker buildx build --platform linux/amd64,linux/arm64 --tag openhpi/docker_exec_java:17 --push co_execenv_java/17/.
 ```
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/openHPI/dockerfiles. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/openHPI/dockerfiles/blob/master/CODE_OF_CONDUCT.md).
+
+## Code of Conduct
+
+Everyone interacting in this project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/openHPI/dockerfiles/blob/master/CODE_OF_CONDUCT.md).
