@@ -16,6 +16,6 @@ RUN mkdir -p /usr/java/lib
 RUN curl -fsSL -O --output-dir /usr/java/lib https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/$JUNIT_VERSION/junit-platform-console-standalone-$JUNIT_VERSION.jar
 
 # Adjust Path variables
-ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-$TARGETARCH
-ENV JUNIT /usr/java/lib/junit-platform-console-standalone-$JUNIT_VERSION.jar
-ENV CLASSPATH .:$JUNIT
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-$TARGETARCH
+ENV JUNIT=/usr/java/lib/junit-platform-console-standalone-$JUNIT_VERSION.jar
+ENV CLASSPATH=.:$JUNIT

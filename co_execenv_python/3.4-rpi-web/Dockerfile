@@ -20,13 +20,13 @@ RUN curl -fsSL https://www.openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz | 
 RUN cd $OPENSSL_TMP_DIR && ./config -fPIC -shared && make install
 
 # Set environment variables for OpenSSL
-ENV OPENSSL_INCLUDE_DIR /usr/local/ssl/include
-ENV OPENSSL_LIB_DIR /usr/local/ssl/lib
-ENV LD_LIBRARY_PATH $OPENSSL_LIB_DIR
+ENV OPENSSL_INCLUDE_DIR=/usr/local/ssl/include
+ENV OPENSSL_LIB_DIR=/usr/local/ssl/lib
+ENV LD_LIBRARY_PATH=$OPENSSL_LIB_DIR
 
 # Install Python version 3.4
 ARG PYTHON_TMP_DIR=/tmp/python3
-ENV PYTHON_DIR /usr/lib/python3.4
+ENV PYTHON_DIR=/usr/lib/python3.4
 RUN mkdir -p $PYTHON_TMP_DIR
 RUN curl -fsSL https://www.python.org/ftp/python/3.4.10/Python-3.4.10.tgz | tar -xz -C $PYTHON_TMP_DIR --strip-components=1
 RUN cd $PYTHON_TMP_DIR && CPPFLAGS="-I/usr/include/tirpc -I$OPENSSL_INCLUDE_DIR" LDFLAGS="-L$OPENSSL_LIB_DIR" ./configure --prefix=/usr && LD_LIBRARY_PATH="/usr/local/ssl/lib" make altinstall
@@ -50,5 +50,5 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.4 1
 RUN update-alternatives --set python3 /usr/bin/python3.4
 
 # Adjust Path variables
-ENV PYTHONPATH $PYTHONPATH:$PYTHON_DIR:/workspace
-ENV PATH $PATH:$PYTHON_DIR
+ENV PYTHONPATH=$PYTHONPATH:$PYTHON_DIR:/workspace
+ENV PATH=$PATH:$PYTHON_DIR

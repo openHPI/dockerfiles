@@ -16,8 +16,8 @@ RUN pip3 install wheel pylint\<2.6 bitstring
 RUN pip3 install pandas torch==1.8.1 torchvision==0.9.1 -f https://download.pytorch.org/whl/cpu
 
 # Adjust Path variables
-ENV PYTHONPATH $PYTHONPATH:/usr/lib/python3.7:/workspace
-ENV PATH $PATH:/usr/lib/python3.7
+ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python3.7:/workspace
+ENV PATH=$PATH:/usr/lib/python3.7
 
 # Add custom files to Python path
 ADD webpython.py /usr/lib/python3.7/webpython.py
