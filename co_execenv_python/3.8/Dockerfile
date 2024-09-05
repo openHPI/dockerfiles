@@ -18,8 +18,8 @@ RUN pip3 install setuptools\<68 # Pylint <2.6 (or, specifically wrapt <1.13) is 
 RUN pip3 install wheel pylint\<2.6 bitstring requests py-sudoku matplotlib numpy beautifulsoup4 tk pandas
 
 # Adjust Path variables
-ENV PYTHONPATH $PYTHONPATH:/usr/lib/python3.8:/workspace
-ENV PATH $PATH:/usr/lib/python3.8
+ENV PYTHONPATH=$PYTHONPATH:/usr/lib/python3.8:/workspace
+ENV PATH=$PATH:/usr/lib/python3.8
 
 # Add custom files to Python path
 ADD assess.py /usr/lib/python3.8/assess.py

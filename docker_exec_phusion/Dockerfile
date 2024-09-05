@@ -27,9 +27,9 @@ WORKDIR /workspace
 # Generate English locale files
 RUN locale-gen en_US.UTF-8
 # Set English as the main language and UTF-8 as desired encoding
-ENV LANGUAGE en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
 # Specify terminal emulation.
 ENV TERM=ansi
 # Prevent folding of output (for lines not longer than 10000 characters).

@@ -25,9 +25,9 @@ RUN curl -fsSL -O --output-dir /usr/java/lib https://www.antlr.org/download/antl
 ADD antlr-java8.jar /usr/java/lib/
 
 # Adjust Path variables
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-$TARGETARCH
-ENV HAMCREST /usr/java/lib/hamcrest-$HAMCREST_VERSION.jar
-ENV JUNIT /usr/java/lib/junit-$JUNIT_VERSION.jar
-ENV ANTLR /usr/java/lib/antlr-${ANTLR_VERSION}-complete.jar
-ENV ANTLR_JAVA8 /usr/java/lib/antlr-java8.jar
-ENV CLASSPATH .:$HAMCREST:$JUNIT:$ANTLR:$ANTLR_JAVA8
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-$TARGETARCH
+ENV HAMCREST=/usr/java/lib/hamcrest-$HAMCREST_VERSION.jar
+ENV JUNIT=/usr/java/lib/junit-$JUNIT_VERSION.jar
+ENV ANTLR=/usr/java/lib/antlr-${ANTLR_VERSION}-complete.jar
+ENV ANTLR_JAVA8=/usr/java/lib/antlr-java8.jar
+ENV CLASSPATH=.:$HAMCREST:$JUNIT:$ANTLR:$ANTLR_JAVA8

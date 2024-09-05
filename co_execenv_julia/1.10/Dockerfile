@@ -11,7 +11,7 @@ ARG TARGETARCH
 RUN install_clean clang
 
 # Create a directory for Julia
-ENV JULIA_HOME /opt/julia
+ENV JULIA_HOME=/opt/julia
 RUN mkdir -p $JULIA_HOME
 
 # Install Julia version 1.10 with the official binaries
@@ -23,7 +23,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
     fi
 
 # Add Julia to the path
-ENV PATH $PATH:$JULIA_HOME/bin
+ENV PATH=$PATH:$JULIA_HOME/bin
 
 # Install Julia packages and rebuild the system image
 RUN JULIA_DEPOT_PATH=$JULIA_HOME/share/julia julia -e 'import Pkg; Pkg.add("PackageCompiler")'

@@ -26,4 +26,4 @@ RUN Rscript -e 'remotes::install_github("brry/berryFunctions")'
 RUN Rscript -e 'remotes::install_github("openHPI/codeoceanR")'
 
 # Adjust Path variables
-ENV PAGER /usr/bin/cat
+ENV PAGER=/usr/bin/cat
