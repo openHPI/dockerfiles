@@ -15,4 +15,4 @@ RUN install_clean libncurses6 build-essential libgmp-dev
 RUN install_clean -t buster ruby2.5 ruby2.5-dev
 
 # Add some Ruby gems
-RUN gem install rspec rspec-expectations minitest:5.15 rubocop-ast:1.17 rubocop:1.28
+RUN gem install rspec rspec-expectations minitest:5.15 rubocop-ast:1.17 parallel:1.24.0 rubocop:1.28
