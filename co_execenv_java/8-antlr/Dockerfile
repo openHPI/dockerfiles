@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides an OpenJDK 8.0 environment with JUnit 4 and Antlr support.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Java 8 execution environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides an OpenJDK 8.0 environment with JUnit 4 and Antlr support.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='make run CLASS_NAME="%{class_name}" FILENAME="%{filename}"'
 LABEL test_command='make test CLASS_NAME="%{class_name}" FILENAME="%{filename}"'
 

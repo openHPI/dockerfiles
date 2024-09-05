@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides a Java 17.0 environment with JUnit 5 support.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Java 17 execution environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides a Java 17.0 environment with JUnit 5 support.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='make run'
 LABEL test_command='make test CLASS_NAME="%{class_name}" FILENAME="%{filename}"'
 

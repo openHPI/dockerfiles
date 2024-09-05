@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides a Python 3.4 environment with selenium and flask support.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Python 3.4 execution environment with selenium and flask for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides a Python 3.4 environment with selenium and flask support.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='make run'
 LABEL test_command='python3 -B -m unittest --verbose %{module_name}'
 
