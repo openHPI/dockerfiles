@@ -1,6 +1,9 @@
 FROM phusion/baseimage:noble-1.0.0
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image is the base for all other execution environments.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Base exeuction environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image is the base for all other execution environments.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 
 # Update the system
 RUN apt-get update && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \

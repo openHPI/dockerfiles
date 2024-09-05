@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides a Python 3.7 environment with custom JSON message output and Machine Learning support.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Python 3.7 execution environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides a Python 3.7 environment with custom JSON message output and Machine Learning support.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='python3 -B /usr/lib/python3.7/webpython.py -f %{filename}'
 LABEL test_command='python3 -B -m unittest --verbose %{module_name}'
 

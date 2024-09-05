@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides a Julia 1.8 environment.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Julia 1.8 execution environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides a Julia 1.8 environment.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='julia --color=no %{filename}'
 LABEL test_command='julia --color=no %{filename}'
 
