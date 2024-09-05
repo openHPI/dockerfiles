@@ -9,8 +9,8 @@ ARG TARGETARCH
 
 # Install latest R version 4.0
 RUN if [ "$TARGETARCH" = "arm64" ]; then \
-        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 0E98404D386FA1D9 && \
-        add-apt-repository -y 'deb http://httpredir.debian.org/debian/ unstable main contrib non-free' --no-update; \
+        # Update distribution regularly to match newest version: https://launchpad.net/ubuntu/+source/r-base
+        add-apt-repository -y "deb http://ports.ubuntu.com/ubuntu-ports oracular universe" --no-update; \
     else \
         apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
         add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"  --no-update; \
