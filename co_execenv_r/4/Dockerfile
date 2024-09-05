@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides a R 4.0 environment with custom libraries from Berry.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='R 4.0 execution environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides a R 4.0 environment with custom libraries from Berry.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='Rscript -e "options(warn=1); source('%{filename}', echo=TRUE)"'
 LABEL test_command='Rscript %{filename}'
 
@@ -26,4 +29,4 @@ RUN Rscript -e 'remotes::install_github("brry/berryFunctions")'
 RUN Rscript -e 'remotes::install_github("openHPI/codeoceanR")'
 
 # Adjust Path variables
-ENV PAGER /usr/bin/cat
+ENV PAGER=/usr/bin/cat

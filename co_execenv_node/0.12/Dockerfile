@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides a Node 0.12 environment with npm, mocha and q.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Node 0.12 execution environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides a Node 0.12 environment with npm, mocha and q.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='node %{filename}'
 LABEL test_command='mocha | iconv -c -t ASCII'
 

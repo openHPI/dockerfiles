@@ -1,6 +1,9 @@
 FROM openhpi/docker_exec_phusion
-MAINTAINER openHPI Team <openhpi-info@hpi.de>
-LABEL description='This image provides a Julia 1.10 environment.'
+LABEL org.opencontainers.image.vendor='openHPI Team'
+LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
+LABEL org.opencontainers.image.title='Julia 1.10 execution environment for CodeOcean'
+LABEL org.opencontainers.image.description='This image provides a Julia 1.10 environment.'
+LABEL org.opencontainers.image.url='https://github.com/openHPI/dockerfiles'
 LABEL run_command='julia --color=no %{filename}'
 LABEL test_command='julia --color=no %{filename}'
 
@@ -11,7 +14,7 @@ ARG TARGETARCH
 RUN install_clean clang
 
 # Create a directory for Julia
-ENV JULIA_HOME /opt/julia
+ENV JULIA_HOME=/opt/julia
 RUN mkdir -p $JULIA_HOME
 
 # Install Julia version 1.10 with the official binaries
@@ -23,7 +26,7 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
     fi
 
 # Add Julia to the path
-ENV PATH $PATH:$JULIA_HOME/bin
+ENV PATH=$PATH:$JULIA_HOME/bin
 
 # Install Julia packages and rebuild the system image
 RUN JULIA_DEPOT_PATH=$JULIA_HOME/share/julia julia -e 'import Pkg; Pkg.add("PackageCompiler")'
