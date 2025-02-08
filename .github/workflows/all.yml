@@ -18,11 +18,41 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Download branch name artifact
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let allArtifacts = await github.rest.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: context.payload.workflow_run.id,
+            });
+            let matchArtifact = allArtifacts.data.artifacts.filter((artifact) => {
+              return artifact.name == "branch_name"
+            })[0];
+            let download = await github.rest.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            const fs = require('fs');
+            const path = require('path');
+            const temp = '${{ runner.temp }}/artifacts';
+            if (!fs.existsSync(temp)){
+              fs.mkdirSync(temp);
+            }
+            fs.writeFileSync(path.join(temp, 'branch_name.zip'), Buffer.from(download.data));
+
+      - name: Unzip branch name artifact
+        run: unzip ${{ runner.temp }}/artifacts/branch_name.zip -d ${{ runner.temp }}/artifacts
+
       - name: Trigger other workflows
         run: |
           for workflow in .github/workflows/*.yml; do
             if [[ ! " ${EXCLUDE_WORKFLOWS[@]} " =~ " $(basename $workflow) " ]]; then
-              echo "Triggering workflow run $(basename $workflow)"
-              gh workflow run $(basename $workflow)
+              echo "Triggering workflow run $(basename $workflow) for $(cat ${{ runner.temp }}/artifacts/branch_name)"
+              gh workflow run $(basename $workflow) --ref $(cat ${{ runner.temp }}/artifacts/branch_name)
             fi
           done
