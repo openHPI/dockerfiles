@@ -33,10 +33,12 @@ apt-get source nodejs=0.12.18-1nodesource1~xenial1
 cd nodejs-0.12.18 && mk-build-deps --install --remove --tool 'apt-get --no-install-recommends --yes'
 
 sed -i 's/-dumpversion/-dumpfullversion/g' /tmp/build/nodejs-0.12.18/configure
-./configure --dest-cpu=arm64 # Always build for arm64, even on amd64
 if [ "$TARGETARCH" = "arm64" ]; then \
+    ./configure --dest-cpu=arm64; \
     sed -i 's/__x86_64__/__aarch64__/g' /tmp/build/nodejs-0.12.18/deps/openssl/config/opensslconf.h && \
     sed -i 's/-m64//g' /tmp/build/nodejs-0.12.18/deps/v8/build/toolchain.gypi; \
+else \
+    ./configure; \
 fi
 
 # Run `make install` with retries.
