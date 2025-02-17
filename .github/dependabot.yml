@@ -2,7 +2,7 @@ version: 2
 
 updates:
   - package-ecosystem: docker
-    directory: "/docker_exec_phusion"
+    directory: "/docker_exec_phusion/latest"
     schedule:
       interval: daily
       time: "03:00"

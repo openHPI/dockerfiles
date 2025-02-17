@@ -36,7 +36,7 @@ Each image derived from `docker_exec_phusion` should be compatible with a non-pr
 ### Build
 
 ```shell
-docker build --no-cache -t openhpi/docker_exec_phusion docker_exec_phusion/.
+docker build --no-cache -t openhpi/docker_exec_phusion docker_exec_phusion/latest/.
 docker build --no-cache -t openhpi/co_execenv_java:17 co_execenv_java/17/.
 # ...
 ```
