@@ -35,6 +35,8 @@ ENV LANG=en_US.UTF-8
 ENV LC_ALL=en_US.UTF-8
 # Specify terminal emulation.
 ENV TERM=ansi
+# Disable color output, see https://no-color.org for support.
+ENV NO_COLOR=true
 # Prevent folding of output (for lines not longer than 10000 characters).
 ENV COLUMNS=10000
 # Identify this environment as being part of CodeOcean.
