@@ -1,4 +1,4 @@
-FROM phusion/baseimage:noble-1.0.0
+FROM phusion/baseimage:noble-1.0.1
 LABEL org.opencontainers.image.vendor='openHPI Team'
 LABEL org.opencontainers.image.authors='openhpi-info@hpi.de'
 LABEL org.opencontainers.image.title='Base exeuction environment for CodeOcean'
