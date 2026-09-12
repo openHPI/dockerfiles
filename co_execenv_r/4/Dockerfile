@@ -18,6 +18,8 @@ RUN install_clean r-base build-essential libcurl4-openssl-dev libssl-dev libpopp
 
 # Add custom packages
 RUN Rscript -e 'install.packages("zoo")'
+RUN Rscript -e 'install.packages("testthat")'
+RUN Rscript -e 'install.packages("checkmate")'
 RUN Rscript -e 'install.packages("pdftools")'
 RUN Rscript -e 'install.packages("base64enc")'
 RUN Rscript -e 'install.packages("remotes", repos="https://cran.rstudio.com")'
