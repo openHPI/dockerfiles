@@ -14,17 +14,18 @@ ARG TARGETARCH
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
       add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"  --no-update
 
-RUN install_clean r-base build-essential libcurl4-openssl-dev libssl-dev libpoppler-cpp-dev poppler-data libjpeg-dev libz-dev
+RUN install_clean r-base build-essential libcurl4-openssl-dev libssl-dev libuv1-dev libpoppler-cpp-dev poppler-data libjpeg-dev libz-dev
 
-# Add custom packages
-RUN Rscript -e 'install.packages("zoo")'
-RUN Rscript -e 'install.packages("testthat")'
-RUN Rscript -e 'install.packages("checkmate")'
-RUN Rscript -e 'install.packages("pdftools")'
-RUN Rscript -e 'install.packages("base64enc")'
-RUN Rscript -e 'install.packages("remotes", repos="https://cran.rstudio.com")'
-RUN Rscript -e 'remotes::install_github("brry/berryFunctions")'
-RUN Rscript -e 'remotes::install_github("openHPI/codeoceanR")'
+# Add custom CRAN packages
+RUN Rscript -e 'pkgs <- c("zoo", "testthat", "checkmate", "pdftools", "base64enc", "remotes"); \
+    install.packages(pkgs, repos = "https://cloud.r-project.org"); \
+    missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]; \
+    if (length(missing)) stop("Failed to install: ", paste(missing, collapse = ", "))'
+# Add custom github packages
+RUN Rscript -e 'remotes::install_github(c("brry/berryFunctions", "openHPI/codeoceanR")); \
+    pkgs <- c("berryFunctions", "codeoceanR"); \
+    missing <- pkgs[!vapply(pkgs, requireNamespace, logical(1), quietly = TRUE)]; \
+    if (length(missing)) stop("Failed to install: ", paste(missing, collapse = ", "))'
 
 # Adjust Path variables
 ENV PAGER=/usr/bin/cat
