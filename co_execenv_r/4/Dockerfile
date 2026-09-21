@@ -14,7 +14,7 @@ ARG TARGETARCH
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
       add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"  --no-update
 
-RUN install_clean r-base build-essential libcurl4-openssl-dev libssl-dev libuv1-dev libpoppler-cpp-dev poppler-data libjpeg-dev libz-dev
+RUN install_clean r-base build-essential libcurl4-openssl-dev libqpdf-dev libssl-dev libuv1-dev libpoppler-cpp-dev poppler-data libjpeg-dev libz-dev
 
 # Add custom CRAN packages
 RUN Rscript -e 'pkgs <- c("zoo", "testthat", "checkmate", "pdftools", "base64enc", "remotes"); \
